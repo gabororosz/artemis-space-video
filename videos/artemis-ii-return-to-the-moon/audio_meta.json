@@ -1,0 +1,821 @@
+{
+  "bgm": null,
+  "bgm_pending": false,
+  "voices": [
+    {
+      "frame": 1,
+      "path": "assets/voice/01.wav",
+      "duration_s": 5.909,
+      "words": [
+        {
+          "id": 0,
+          "text": "April",
+          "start": 0.08,
+          "end": 0.326
+        },
+        {
+          "id": 1,
+          "text": "first,",
+          "start": 0.326,
+          "end": 1.064
+        },
+        {
+          "id": 2,
+          "text": "twenty",
+          "start": 1.064,
+          "end": 1.36
+        },
+        {
+          "id": 3,
+          "text": "twenty-six.",
+          "start": 1.36,
+          "end": 2.295
+        },
+        {
+          "id": 4,
+          "text": "Artemis",
+          "start": 2.295,
+          "end": 2.639
+        },
+        {
+          "id": 5,
+          "text": "Two.",
+          "start": 2.639,
+          "end": 3.279
+        },
+        {
+          "id": 6,
+          "text": "The",
+          "start": 3.279,
+          "end": 3.427
+        },
+        {
+          "id": 7,
+          "text": "first",
+          "start": 3.427,
+          "end": 3.673
+        },
+        {
+          "id": 8,
+          "text": "crewed",
+          "start": 3.673,
+          "end": 3.968
+        },
+        {
+          "id": 9,
+          "text": "lunar",
+          "start": 3.968,
+          "end": 4.214
+        },
+        {
+          "id": 10,
+          "text": "flyby",
+          "start": 4.214,
+          "end": 4.46
+        },
+        {
+          "id": 11,
+          "text": "in",
+          "start": 4.46,
+          "end": 4.608
+        },
+        {
+          "id": 12,
+          "text": "over",
+          "start": 4.608,
+          "end": 4.805
+        },
+        {
+          "id": 13,
+          "text": "fifty",
+          "start": 4.805,
+          "end": 5.051
+        },
+        {
+          "id": 14,
+          "text": "years.",
+          "start": 5.051,
+          "end": 5.789
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "path": "assets/voice/02.wav",
+      "duration_s": 7.445,
+      "words": [
+        {
+          "id": 0,
+          "text": "The",
+          "start": 0.08,
+          "end": 0.243
+        },
+        {
+          "id": 1,
+          "text": "Space",
+          "start": 0.243,
+          "end": 0.516
+        },
+        {
+          "id": 2,
+          "text": "Launch",
+          "start": 0.516,
+          "end": 0.843
+        },
+        {
+          "id": 3,
+          "text": "System",
+          "start": 0.843,
+          "end": 1.169
+        },
+        {
+          "id": 4,
+          "text": "lifts",
+          "start": 1.169,
+          "end": 1.442
+        },
+        {
+          "id": 5,
+          "text": "Orion",
+          "start": 1.442,
+          "end": 1.714
+        },
+        {
+          "id": 6,
+          "text": "into",
+          "start": 1.714,
+          "end": 1.932
+        },
+        {
+          "id": 7,
+          "text": "a",
+          "start": 1.932,
+          "end": 2.096
+        },
+        {
+          "id": 8,
+          "text": "high",
+          "start": 2.096,
+          "end": 2.313
+        },
+        {
+          "id": 9,
+          "text": "elliptical",
+          "start": 2.313,
+          "end": 2.858
+        },
+        {
+          "id": 10,
+          "text": "Earth",
+          "start": 2.858,
+          "end": 3.131
+        },
+        {
+          "id": 11,
+          "text": "orbit.",
+          "start": 3.131,
+          "end": 3.948
+        },
+        {
+          "id": 12,
+          "text": "Twenty-four",
+          "start": 3.948,
+          "end": 4.492
+        },
+        {
+          "id": 13,
+          "text": "hours",
+          "start": 4.492,
+          "end": 4.765
+        },
+        {
+          "id": 14,
+          "text": "of",
+          "start": 4.765,
+          "end": 4.928
+        },
+        {
+          "id": 15,
+          "text": "system",
+          "start": 4.928,
+          "end": 5.255
+        },
+        {
+          "id": 16,
+          "text": "checkouts",
+          "start": 5.255,
+          "end": 5.745
+        },
+        {
+          "id": 17,
+          "text": "before",
+          "start": 5.745,
+          "end": 6.072
+        },
+        {
+          "id": 18,
+          "text": "they",
+          "start": 6.072,
+          "end": 6.29
+        },
+        {
+          "id": 19,
+          "text": "leave",
+          "start": 6.29,
+          "end": 6.562
+        },
+        {
+          "id": 20,
+          "text": "home.",
+          "start": 6.562,
+          "end": 7.325
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "path": "assets/voice/03.wav",
+      "duration_s": 5.632,
+      "words": [
+        {
+          "id": 0,
+          "text": "Then",
+          "start": 0.08,
+          "end": 0.258
+        },
+        {
+          "id": 1,
+          "text": "the",
+          "start": 0.258,
+          "end": 0.392
+        },
+        {
+          "id": 2,
+          "text": "trans-lunar",
+          "start": 0.392,
+          "end": 0.837
+        },
+        {
+          "id": 3,
+          "text": "injection",
+          "start": 0.837,
+          "end": 1.238
+        },
+        {
+          "id": 4,
+          "text": "burn.",
+          "start": 1.238,
+          "end": 1.861
+        },
+        {
+          "id": 5,
+          "text": "Six",
+          "start": 1.861,
+          "end": 1.995
+        },
+        {
+          "id": 6,
+          "text": "minutes.",
+          "start": 1.995,
+          "end": 2.751
+        },
+        {
+          "id": 7,
+          "text": "A",
+          "start": 2.751,
+          "end": 2.885
+        },
+        {
+          "id": 8,
+          "text": "free-return",
+          "start": 2.885,
+          "end": 3.33
+        },
+        {
+          "id": 9,
+          "text": "trajectory,",
+          "start": 3.33,
+          "end": 4.221
+        },
+        {
+          "id": 10,
+          "text": "locked",
+          "start": 4.221,
+          "end": 4.488
+        },
+        {
+          "id": 11,
+          "text": "toward",
+          "start": 4.488,
+          "end": 4.755
+        },
+        {
+          "id": 12,
+          "text": "the",
+          "start": 4.755,
+          "end": 4.889
+        },
+        {
+          "id": 13,
+          "text": "Moon.",
+          "start": 4.889,
+          "end": 5.512
+        }
+      ]
+    },
+    {
+      "frame": 4,
+      "path": "assets/voice/04.wav",
+      "duration_s": 5.973,
+      "words": [
+        {
+          "id": 0,
+          "text": "Four",
+          "start": 0.08,
+          "end": 0.298
+        },
+        {
+          "id": 1,
+          "text": "days",
+          "start": 0.298,
+          "end": 0.516
+        },
+        {
+          "id": 2,
+          "text": "outbound.",
+          "start": 0.516,
+          "end": 1.496
+        },
+        {
+          "id": 3,
+          "text": "Orion",
+          "start": 1.496,
+          "end": 1.768
+        },
+        {
+          "id": 4,
+          "text": "coasts",
+          "start": 1.768,
+          "end": 2.095
+        },
+        {
+          "id": 5,
+          "text": "across",
+          "start": 2.095,
+          "end": 2.422
+        },
+        {
+          "id": 6,
+          "text": "three",
+          "start": 2.422,
+          "end": 2.694
+        },
+        {
+          "id": 7,
+          "text": "hundred",
+          "start": 2.694,
+          "end": 3.075
+        },
+        {
+          "id": 8,
+          "text": "eighty-four",
+          "start": 3.075,
+          "end": 3.62
+        },
+        {
+          "id": 9,
+          "text": "thousand",
+          "start": 3.62,
+          "end": 4.056
+        },
+        {
+          "id": 10,
+          "text": "kilometers",
+          "start": 4.056,
+          "end": 4.6
+        },
+        {
+          "id": 11,
+          "text": "of",
+          "start": 4.6,
+          "end": 4.764
+        },
+        {
+          "id": 12,
+          "text": "empty",
+          "start": 4.764,
+          "end": 5.036
+        },
+        {
+          "id": 13,
+          "text": "space.",
+          "start": 5.036,
+          "end": 5.853
+        }
+      ]
+    },
+    {
+      "frame": 5,
+      "path": "assets/voice/05.wav",
+      "duration_s": 10.432,
+      "words": [
+        {
+          "id": 0,
+          "text": "April",
+          "start": 0.08,
+          "end": 0.311
+        },
+        {
+          "id": 1,
+          "text": "sixth.",
+          "start": 0.311,
+          "end": 1.006
+        },
+        {
+          "id": 2,
+          "text": "Closest",
+          "start": 1.006,
+          "end": 1.33
+        },
+        {
+          "id": 3,
+          "text": "approach:",
+          "start": 1.33,
+          "end": 2.163
+        },
+        {
+          "id": 4,
+          "text": "six",
+          "start": 2.163,
+          "end": 2.302
+        },
+        {
+          "id": 5,
+          "text": "thousand",
+          "start": 2.302,
+          "end": 2.673
+        },
+        {
+          "id": 6,
+          "text": "five",
+          "start": 2.673,
+          "end": 2.858
+        },
+        {
+          "id": 7,
+          "text": "hundred",
+          "start": 2.858,
+          "end": 3.182
+        },
+        {
+          "id": 8,
+          "text": "forty-five",
+          "start": 3.182,
+          "end": 3.599
+        },
+        {
+          "id": 9,
+          "text": "kilometers",
+          "start": 3.599,
+          "end": 4.062
+        },
+        {
+          "id": 10,
+          "text": "from",
+          "start": 4.062,
+          "end": 4.247
+        },
+        {
+          "id": 11,
+          "text": "the",
+          "start": 4.247,
+          "end": 4.386
+        },
+        {
+          "id": 12,
+          "text": "lunar",
+          "start": 4.386,
+          "end": 4.617
+        },
+        {
+          "id": 13,
+          "text": "far",
+          "start": 4.617,
+          "end": 4.756
+        },
+        {
+          "id": 14,
+          "text": "side.",
+          "start": 4.756,
+          "end": 5.404
+        },
+        {
+          "id": 15,
+          "text": "The",
+          "start": 5.404,
+          "end": 5.543
+        },
+        {
+          "id": 16,
+          "text": "farthest",
+          "start": 5.543,
+          "end": 5.914
+        },
+        {
+          "id": 17,
+          "text": "humans",
+          "start": 5.914,
+          "end": 6.191
+        },
+        {
+          "id": 18,
+          "text": "have",
+          "start": 6.191,
+          "end": 6.377
+        },
+        {
+          "id": 19,
+          "text": "ever",
+          "start": 6.377,
+          "end": 6.562
+        },
+        {
+          "id": 20,
+          "text": "traveled.",
+          "start": 6.562,
+          "end": 7.395
+        },
+        {
+          "id": 21,
+          "text": "Wiseman.",
+          "start": 7.395,
+          "end": 8.182
+        },
+        {
+          "id": 22,
+          "text": "Glover.",
+          "start": 8.182,
+          "end": 8.923
+        },
+        {
+          "id": 23,
+          "text": "Koch.",
+          "start": 8.923,
+          "end": 9.571
+        },
+        {
+          "id": 24,
+          "text": "Hansen.",
+          "start": 9.571,
+          "end": 10.312
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "path": "assets/voice/06.wav",
+      "duration_s": 5.632,
+      "words": [
+        {
+          "id": 0,
+          "text": "Gravity",
+          "start": 0.08,
+          "end": 0.423
+        },
+        {
+          "id": 1,
+          "text": "brings",
+          "start": 0.423,
+          "end": 0.716
+        },
+        {
+          "id": 2,
+          "text": "them",
+          "start": 0.716,
+          "end": 0.912
+        },
+        {
+          "id": 3,
+          "text": "home.",
+          "start": 0.912,
+          "end": 1.597
+        },
+        {
+          "id": 4,
+          "text": "The",
+          "start": 1.597,
+          "end": 1.744
+        },
+        {
+          "id": 5,
+          "text": "free-return",
+          "start": 1.744,
+          "end": 2.233
+        },
+        {
+          "id": 6,
+          "text": "arc",
+          "start": 2.233,
+          "end": 2.38
+        },
+        {
+          "id": 7,
+          "text": "completes.",
+          "start": 2.38,
+          "end": 3.31
+        },
+        {
+          "id": 8,
+          "text": "Re-entry",
+          "start": 3.31,
+          "end": 3.652
+        },
+        {
+          "id": 9,
+          "text": "at",
+          "start": 3.652,
+          "end": 3.799
+        },
+        {
+          "id": 10,
+          "text": "eleven",
+          "start": 3.799,
+          "end": 4.093
+        },
+        {
+          "id": 11,
+          "text": "kilometers",
+          "start": 4.093,
+          "end": 4.582
+        },
+        {
+          "id": 12,
+          "text": "per",
+          "start": 4.582,
+          "end": 4.729
+        },
+        {
+          "id": 13,
+          "text": "second.",
+          "start": 4.729,
+          "end": 5.512
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "path": "assets/voice/07.wav",
+      "duration_s": 6.016,
+      "words": [
+        {
+          "id": 0,
+          "text": "Ten",
+          "start": 0.08,
+          "end": 0.2
+        },
+        {
+          "id": 1,
+          "text": "days.",
+          "start": 0.2,
+          "end": 0.757
+        },
+        {
+          "id": 2,
+          "text": "One",
+          "start": 0.757,
+          "end": 0.877
+        },
+        {
+          "id": 3,
+          "text": "flyby.",
+          "start": 0.877,
+          "end": 1.474
+        },
+        {
+          "id": 4,
+          "text": "Four",
+          "start": 1.474,
+          "end": 1.634
+        },
+        {
+          "id": 5,
+          "text": "astronauts.",
+          "start": 1.634,
+          "end": 2.43
+        },
+        {
+          "id": 6,
+          "text": "Infinite",
+          "start": 2.43,
+          "end": 2.749
+        },
+        {
+          "id": 7,
+          "text": "ambition.",
+          "start": 2.749,
+          "end": 3.466
+        },
+        {
+          "id": 8,
+          "text": "Next:",
+          "start": 3.466,
+          "end": 4.024
+        },
+        {
+          "id": 9,
+          "text": "Artemis",
+          "start": 4.024,
+          "end": 4.303
+        },
+        {
+          "id": 10,
+          "text": "Three.",
+          "start": 4.303,
+          "end": 4.9
+        },
+        {
+          "id": 11,
+          "text": "Boots",
+          "start": 4.9,
+          "end": 5.099
+        },
+        {
+          "id": 12,
+          "text": "on",
+          "start": 5.099,
+          "end": 5.219
+        },
+        {
+          "id": 13,
+          "text": "the",
+          "start": 5.219,
+          "end": 5.338
+        },
+        {
+          "id": 14,
+          "text": "Moon.",
+          "start": 5.338,
+          "end": 5.896
+        }
+      ]
+    }
+  ],
+  "sfx": [
+    {
+      "frame": 1,
+      "file": "assets/sfx/whoosh-short.mp3",
+      "offset_s": 0,
+      "duration_s": 0.57,
+      "volume": 0.35
+    },
+    {
+      "frame": 2,
+      "file": "assets/sfx/whoosh-cinematic.mp3",
+      "offset_s": 0,
+      "duration_s": 5.54,
+      "volume": 0.35
+    },
+    {
+      "frame": 2,
+      "file": "assets/sfx/ping.mp3",
+      "offset_s": 0,
+      "duration_s": 1.32,
+      "volume": 0.35
+    },
+    {
+      "frame": 3,
+      "file": "assets/sfx/whoosh-short.mp3",
+      "offset_s": 0,
+      "duration_s": 0.57,
+      "volume": 0.35
+    },
+    {
+      "frame": 4,
+      "file": "assets/sfx/ping.mp3",
+      "offset_s": 0,
+      "duration_s": 1.32,
+      "volume": 0.35
+    },
+    {
+      "frame": 5,
+      "file": "assets/sfx/impact-bass-1.mp3",
+      "offset_s": 0,
+      "duration_s": 2.12,
+      "volume": 0.35
+    },
+    {
+      "frame": 6,
+      "file": "assets/sfx/whoosh-short.mp3",
+      "offset_s": 0,
+      "duration_s": 0.57,
+      "volume": 0.35
+    },
+    {
+      "frame": 7,
+      "file": "assets/sfx/impact-bass-2.mp3",
+      "offset_s": 0,
+      "duration_s": 2.59,
+      "volume": 0.35
+    }
+  ]
+}

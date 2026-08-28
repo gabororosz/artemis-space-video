@@ -1,0 +1,532 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-400.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-500.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-600.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-700.woff2") format("woff2");}
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      color: #E8EEF7;
+    }
+    .clip {
+      position: absolute;
+      inset: 0;
+    }
+    .scene-2-ground-fill {
+      position: absolute;
+      inset: 0;
+      background: #05070D;
+    }
+    .scene-2-swell {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 72% 58% at 50% 78%, rgba(11, 20, 38, 0.92) 0%, rgba(5, 7, 13, 0) 68%);
+      pointer-events: none;
+    }
+    .scene-2-stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+    }
+    .scene-2-camera {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 54%;
+    }
+    .scene-2-heading-lockup {
+      position: absolute;
+      left: 5.5cqw;
+      top: 6.4cqw;
+      width: 38cqw;
+    }
+    .scene-2-heading {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.25cqw;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #4FC3F7;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+    .scene-2-rule {
+      display: block;
+      width: 36px;
+      height: 2px;
+      margin-top: 0.7cqw;
+      background: #FF6B35;
+      transform-origin: left center;
+    }
+    .scene-2-vehicle-wrap {
+      position: absolute;
+      left: 850px;
+      top: 188px;
+      width: 220px;
+      height: 820px;
+    }
+    .scene-2-vehicle-svg {
+      display: block;
+      width: 220px;
+      height: 820px;
+      overflow: visible;
+    }
+    .scene-2-plume {
+      fill: none;
+      stroke: #FF6B35;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .scene-2-plume-hot {
+      fill: none;
+      stroke: #FFD166;
+      stroke-width: 5;
+      stroke-linecap: round;
+    }
+    .scene-2-ignition {
+      position: absolute;
+      left: 46px;
+      top: 548px;
+      width: 128px;
+      height: 220px;
+      background: radial-gradient(ellipse 55% 70% at 50% 0%, rgba(255, 107, 53, 0.55) 0%, rgba(255, 209, 102, 0.12) 38%, rgba(5, 7, 13, 0) 72%);
+      pointer-events: none;
+    }
+    .scene-2-telemetry {
+      position: absolute;
+      left: 1410px;
+      top: 268px;
+      width: 404px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15cqw;
+    }
+    .scene-2-stat {
+      padding: 0.85cqw 1.1cqw 1cqw;
+      border: 1px solid rgba(79, 195, 247, 0.35);
+      background: rgba(11, 20, 38, 0.72);
+    }
+    .scene-2-stat-label {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 0.72cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4FC3F7;
+      margin-bottom: 0.35cqw;
+    }
+    .scene-2-counter-wrap {
+      display: flex;
+      align-items: baseline;
+      width: 16cqw;
+    }
+    .scene-2-counter {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 2.4cqw;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+      line-height: 1;
+      color: #E8EEF7;
+      transform-origin: left center;
+    }
+    .scene-2-counter-hero {
+      color: #FF6B35;
+    }
+    .scene-2-suffix {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.1cqw;
+      letter-spacing: 0.04em;
+      color: #4FC3F7;
+      margin-left: 0.45cqw;
+    }
+    .scene-2-annotation-lockup {
+      position: absolute;
+      left: 5.5cqw;
+      top: 14.2cqw;
+      min-width: 34cqw;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: baseline;
+    }
+    .scene-2-annotation {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.05cqw;
+      letter-spacing: 0.04em;
+      color: #E8EEF7;
+      line-height: 1.35;
+    }
+    .scene-2-annotation-gold {
+      color: #FFD166;
+    }
+    .scene-2-cursor {
+      display: inline-block;
+      width: 0.32cqw;
+      height: 1.05cqw;
+      margin-left: 0.2cqw;
+      background: #4FC3F7;
+    }
+  </style>
+
+  <div data-hf-id="hf-as3w" id="root" data-composition-id="scene-2" data-width="1920" data-height="1080" data-duration="8.6">
+    <div data-hf-id="hf-h7bz" id="scene-2-ground" class="clip" data-start="0" data-duration="8.6" data-track-index="0">
+      <div data-hf-id="hf-dmev" class="scene-2-ground-fill"></div>
+      <canvas data-hf-id="hf-9b9v" id="scene-2-stars-far" class="scene-2-stars" width="2040" height="1080"></canvas>
+      <canvas data-hf-id="hf-pnqq" id="scene-2-stars-near" class="scene-2-stars" width="2040" height="1080"></canvas>
+      <div data-hf-id="hf-5uyt" class="scene-2-swell"></div>
+    </div>
+
+    <div data-hf-id="hf-tucq" id="scene-2-camera" class="clip" data-start="0" data-duration="8.6" data-track-index="1">
+      <div data-hf-id="hf-nmef" class="scene-2-camera">
+        <div data-hf-id="hf-5z0h" id="scene-2-heading-clip" class="clip" data-start="0" data-duration="8.6" data-track-index="2">
+          <div data-hf-id="hf-26br" class="scene-2-heading-lockup">
+            <div data-hf-id="hf-brav" id="scene-2-heading" class="scene-2-heading">PHASE 01 · LAUNCH + HIGH EARTH ORBIT</div>
+            <div data-hf-id="hf-9ave" id="scene-2-rule" class="scene-2-rule"></div>
+          </div>
+        </div>
+
+        <div data-hf-id="hf-cb9b" id="scene-2-vehicle" class="clip" data-start="0" data-duration="8.6" data-track-index="3">
+          <div data-hf-id="hf-51n2" id="scene-2-vehicle-wrap" class="scene-2-vehicle-wrap">
+            <div data-hf-id="hf-t2j6" id="scene-2-ignition" class="scene-2-ignition"></div>
+            <svg data-hf-id="hf-fpmg" id="scene-2-rocket" class="scene-2-vehicle-svg" viewBox="0 0 220 760" xmlns="http://www.w3.org/2000/svg">
+              <path data-hf-id="hf-7cz6" fill="#E8EEF7" d="M104 14h12v50h-12z" />
+              <path data-hf-id="hf-yym2" fill="#E8EEF7" d="M96 14h28v7H96z" />
+              <path data-hf-id="hf-r5md" fill="#E8EEF7" d="M91 62h38l-7 32H98z" />
+              <path data-hf-id="hf-i8ee" fill="#E8EEF7" d="M98 94h24v38H98z" />
+              <path data-hf-id="hf-1t7u" fill="#E8EEF7" d="M94 132h32v50H94z" />
+              <path data-hf-id="hf-m970" fill="#E8EEF7" d="M88 182h44v308H88z" />
+              <path data-hf-id="hf-r10t" fill="#4FC3F7" fill-opacity="0.28" d="M86 268h48v8H86z" />
+              <path data-hf-id="hf-x4gd" fill="#E8EEF7" d="M90 490h40v24H90z" />
+              <path data-hf-id="hf-c86e" fill="#E8EEF7" d="M94 514l-4 28h16l-3-28z" />
+              <path data-hf-id="hf-34rp" fill="#E8EEF7" d="M114 514l-3 28h16l-4-28z" />
+              <path data-hf-id="hf-0avk" fill="#E8EEF7" d="M54 198l24-36 24 36z" />
+              <path data-hf-id="hf-tj20" fill="#E8EEF7" d="M54 198h32v292H54z" />
+              <path data-hf-id="hf-vkzf" fill="#FF6B35" d="M68 214h4v256h-4z" />
+              <path data-hf-id="hf-kdof" fill="#E8EEF7" d="M56 490l-6 42h40l-6-42z" />
+              <path data-hf-id="hf-tvdr" fill="#E8EEF7" d="M118 198l24-36 24 36z" />
+              <path data-hf-id="hf-tu7i" fill="#E8EEF7" d="M134 198h32v292h-32z" />
+              <path data-hf-id="hf-rc9k" fill="#FF6B35" d="M148 214h4v256h-4z" />
+              <path data-hf-id="hf-3wm0" fill="#E8EEF7" d="M136 490l-6 42h40l-6-42z" />
+              <path data-hf-id="hf-jkcd" id="scene-2-plume-l" class="scene-2-plume" d="M70 534 C 52 590, 40 650, 64 756" />
+              <path data-hf-id="hf-z1sj" id="scene-2-plume-bl" class="scene-2-plume" d="M98 544 C 82 608, 74 672, 92 758" />
+              <path data-hf-id="hf-zatx" id="scene-2-plume-c" class="scene-2-plume" d="M110 542 C 104 620, 100 688, 110 760" />
+              <path data-hf-id="hf-i29r" id="scene-2-plume-br" class="scene-2-plume" d="M122 544 C 138 608, 146 672, 128 758" />
+              <path data-hf-id="hf-qx3h" id="scene-2-plume-r" class="scene-2-plume" d="M150 534 C 168 590, 180 650, 156 756" />
+              <path data-hf-id="hf-8ef8" id="scene-2-plume-hot" class="scene-2-plume-hot" d="M110 540 C 106 616, 104 690, 110 758" />
+            </svg>
+          </div>
+        </div>
+
+        <div data-hf-id="hf-be43" id="scene-2-telemetry" class="clip" data-start="1.6" data-duration="7" data-track-index="4">
+          <div data-hf-id="hf-9cwr" id="scene-2-telemetry-stack" class="scene-2-telemetry">
+            <div data-hf-id="hf-uzho" class="scene-2-stat">
+              <div data-hf-id="hf-368w" class="scene-2-stat-label">ALT</div>
+              <div data-hf-id="hf-ikkz" class="scene-2-counter-wrap">
+                <span data-hf-id="hf-o3uf" id="scene-2-alt" class="scene-2-counter scene-2-counter-hero">0</span>
+                <span data-hf-id="hf-rzlx" id="scene-2-alt-suffix" class="scene-2-suffix">km</span>
+              </div>
+            </div>
+            <div data-hf-id="hf-gp8k" class="scene-2-stat">
+              <div data-hf-id="hf-t1no" class="scene-2-stat-label">VEL</div>
+              <div data-hf-id="hf-400j" class="scene-2-counter-wrap">
+                <span data-hf-id="hf-ye1o" id="scene-2-vel" class="scene-2-counter">0.00</span>
+                <span data-hf-id="hf-vs4f" id="scene-2-vel-suffix" class="scene-2-suffix">km/s</span>
+              </div>
+            </div>
+            <div data-hf-id="hf-fibh" class="scene-2-stat">
+              <div data-hf-id="hf-op24" class="scene-2-stat-label">T+</div>
+              <div data-hf-id="hf-3lpi" class="scene-2-counter-wrap">
+                <span data-hf-id="hf-bmwz" id="scene-2-tplus" class="scene-2-counter">00:00:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-hf-id="hf-kmiy" id="scene-2-annotation" class="clip" data-start="4.4" data-duration="4.2" data-track-index="5">
+          <div data-hf-id="hf-q21u" id="scene-2-annotation-lockup" class="scene-2-annotation-lockup">
+            <span data-hf-id="hf-1lhl" id="scene-2-annotation-text" class="scene-2-annotation"></span>
+            <span data-hf-id="hf-v7tf" id="scene-2-cursor" class="scene-2-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function paintStars(canvas, count, sizeMin, sizeMax, alphaMin, alphaMax, rng) {
+        var ctx = canvas.getContext("2d");
+        var w = canvas.width;
+        var h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < count; i++) {
+          var x = rng() * w;
+          var y = rng() * h;
+          var r = sizeMin + rng() * (sizeMax - sizeMin);
+          var a = alphaMin + rng() * (alphaMax - alphaMin);
+          var roll = rng();
+          var fill;
+          if (roll > 0.97) fill = "rgba(255, 209, 102, " + a + ")";
+          else if (roll > 0.93) fill = "rgba(79, 195, 247, " + a + ")";
+          else fill = "rgba(232, 238, 247, " + a + ")";
+          ctx.fillStyle = fill;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function pad2(n) {
+        return (n < 10 ? "0" : "") + n;
+      }
+
+      function formatTplus(sec) {
+        var s = Math.round(sec);
+        var hh = Math.floor(s / 3600);
+        var mm = Math.floor((s % 3600) / 60);
+        var ss = s % 60;
+        return pad2(hh) + ":" + pad2(mm) + ":" + pad2(ss);
+      }
+
+      var rng = mulberry32(22022);
+      paintStars(document.getElementById("scene-2-stars-far"), 140, 0.4, 1.15, 0.18, 0.55, rng);
+      paintStars(document.getElementById("scene-2-stars-near"), 55, 1.1, 2.2, 0.45, 0.92, rng);
+
+      var plumeIds = [
+        "scene-2-plume-l",
+        "scene-2-plume-bl",
+        "scene-2-plume-c",
+        "scene-2-plume-br",
+        "scene-2-plume-r",
+        "scene-2-plume-hot",
+      ];
+      plumeIds.forEach(function (id) {
+        var p = document.getElementById(id);
+        var len = p.getTotalLength() * 1.05;
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+      });
+
+      var altEl = document.getElementById("scene-2-alt");
+      var velEl = document.getElementById("scene-2-vel");
+      var tplusEl = document.getElementById("scene-2-tplus");
+      var textEl = document.getElementById("scene-2-annotation-text");
+      var cursorEl = document.getElementById("scene-2-cursor");
+
+      var COUNT_AT = 1.6;
+      var COUNT_DUR = 2.4;
+      var COUNT_EASE = "power3.out";
+      var START_SCALE = 0.52;
+
+      var alt = { value: 0 };
+      var vel = { value: 0 };
+      var tplus = { value: 0 };
+
+      var SEQUENCE = [
+        { t: 4.4, html: "" },
+        { t: 4.55, html: '<span class="scene-2-annotation-gold">~24h</span>' },
+        { t: 5.05, html: '<span class="scene-2-annotation-gold">~24h</span> elliptical orbit' },
+        { t: 5.55, html: '<span class="scene-2-annotation-gold">~24h</span> elliptical orbit for system checkouts' },
+      ];
+      function textAt(time) {
+        for (var i = SEQUENCE.length - 1; i >= 0; i--) {
+          if (time >= SEQUENCE[i].t) return SEQUENCE[i].html;
+        }
+        return "";
+      }
+
+      var tl = gsap.timeline({ paused: true });
+
+      tl.fromTo(
+        "#scene-2-stars-far",
+        { x: 0 },
+        { x: -22, duration: 8, ease: "power3.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-2-stars-near",
+        { x: 0 },
+        { x: -54, duration: 8, ease: "power3.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-2-camera .scene-2-camera",
+        { scale: 1 },
+        { scale: 1.045, duration: 8, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-2-heading",
+        { opacity: 0, x: -28 },
+        { opacity: 1, x: 0, duration: 0.72, ease: "expo.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-2-rule",
+        { opacity: 0, scaleX: 0 },
+        { opacity: 1, scaleX: 1, duration: 0.48, ease: "power3.out" },
+        0.16
+      );
+      tl.fromTo(
+        "#scene-2-vehicle-wrap",
+        { opacity: 0, y: 32 },
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
+        0.1
+      );
+
+      var plumeStarts = [1.6, 1.76, 1.92, 2.08, 2.24, 2.12];
+      plumeIds.forEach(function (id, i) {
+        tl.fromTo(
+          "#" + id,
+          { strokeDashoffset: document.getElementById(id).getTotalLength() * 1.05 },
+          { strokeDashoffset: 0, duration: i === 5 ? 1.7 : 1.85, ease: "power3.out" },
+          plumeStarts[i]
+        );
+      });
+      tl.fromTo(
+        "#scene-2-ignition",
+        { opacity: 0 },
+        { opacity: 1, duration: 1.1, ease: "power3.out" },
+        1.6
+      );
+
+      tl.fromTo(
+        "#scene-2-telemetry-stack",
+        { opacity: 0, x: 22 },
+        { opacity: 1, x: 0, duration: 0.55, ease: "expo.out" },
+        COUNT_AT
+      );
+      tl.fromTo(
+        ".scene-2-stat-label",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.08 },
+        COUNT_AT + 0.08
+      );
+
+      tl.fromTo(
+        alt,
+        { value: 0 },
+        {
+          value: 162,
+          duration: COUNT_DUR,
+          ease: COUNT_EASE,
+          onUpdate: function () {
+            altEl.textContent = Math.round(alt.value).toLocaleString();
+          },
+        },
+        COUNT_AT
+      );
+      tl.fromTo("#scene-2-alt", { scale: START_SCALE }, { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE }, COUNT_AT);
+      tl.fromTo(
+        vel,
+        { value: 0 },
+        {
+          value: 7.61,
+          duration: COUNT_DUR,
+          ease: COUNT_EASE,
+          onUpdate: function () {
+            velEl.textContent = vel.value.toFixed(2);
+          },
+        },
+        COUNT_AT
+      );
+      tl.fromTo(
+        tplus,
+        { value: 0 },
+        {
+          value: 485,
+          duration: COUNT_DUR,
+          ease: COUNT_EASE,
+          onUpdate: function () {
+            tplusEl.textContent = formatTplus(tplus.value);
+          },
+        },
+        COUNT_AT
+      );
+
+      tl.fromTo(
+        "#scene-2-alt-suffix",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        COUNT_AT + COUNT_DUR
+      );
+      tl.fromTo(
+        "#scene-2-vel-suffix",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        COUNT_AT + COUNT_DUR
+      );
+
+      tl.fromTo(
+        "#scene-2-annotation-lockup",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        4.4
+      );
+
+      var driver = { t: 0 };
+      var lastHtml = null;
+      tl.fromTo(
+        driver,
+        { t: 0 },
+        {
+          t: 8,
+          duration: 8,
+          ease: "none",
+          onUpdate: function () {
+            var html = textAt(driver.t);
+            if (html !== lastHtml) {
+              textEl.innerHTML = html;
+              lastHtml = html;
+            }
+          },
+        },
+        0
+      );
+
+      var blink = { p: 0 };
+      tl.fromTo(
+        blink,
+        { p: 0 },
+        {
+          p: Math.PI * 2 * 6,
+          duration: 3.6,
+          ease: "none",
+          onUpdate: function () {
+            cursorEl.style.opacity = Math.sin(blink.p) > 0 ? "1" : "0";
+          },
+        },
+        4.4
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["scene-2"] = tl;
+    })();
+  </script>
+</template>

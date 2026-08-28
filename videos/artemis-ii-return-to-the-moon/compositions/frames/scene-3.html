@@ -1,0 +1,421 @@
+<template>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-400.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-500.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-600.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-700.woff2") format("woff2");}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      color: #e8eef7;
+    }
+    #root * {
+      box-sizing: border-box;
+    }
+    .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    #scene-3-ground {
+      background-color: #05070d;
+      background-image: radial-gradient(ellipse 58% 50% at 50% 48%, #0b1426 0%, #05070d 72%);
+    }
+
+    #scene-3-stars-far-wrap,
+    #scene-3-stars-near-wrap {
+      overflow: hidden;
+      pointer-events: none;
+    }
+    #scene-3-stars-far,
+    #scene-3-stars-near {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 2080px;
+      height: 1080px;
+    }
+
+    #scene-3-map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    #scene-3-traj-glow {
+      fill: none;
+      stroke: #4fc3f7;
+      stroke-width: 11;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.28;
+    }
+    #scene-3-traj-path {
+      fill: none;
+      stroke: #4fc3f7;
+      stroke-width: 3.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #scene-3-earth,
+    #scene-3-moon {
+      position: absolute;
+      z-index: 4;
+      transform-origin: 50% 50%;
+    }
+    #scene-3-earth {
+      left: 268px;
+      top: 428px;
+      width: 184px;
+      height: 184px;
+    }
+    #scene-3-moon {
+      left: 1456px;
+      top: 468px;
+      width: 104px;
+      height: 104px;
+    }
+    .scene-3-disc {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    .scene-3-earth-disc {
+      background: radial-gradient(circle at 38% 34%, #4fc3f7 0%, #0b1426 64%);
+      border: 2px solid #4fc3f7;
+    }
+    .scene-3-moon-disc {
+      background: radial-gradient(circle at 40% 36%, #e8eef7 0%, #ffd166 78%, #0b1426 100%);
+      border: 2px solid #ffd166;
+    }
+
+    .scene-3-node-label {
+      position: absolute;
+      top: 628px;
+      z-index: 5;
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.15cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      text-align: center;
+    }
+    #scene-3-earth-label {
+      left: 268px;
+      width: 184px;
+      color: #4fc3f7;
+    }
+    #scene-3-moon-label {
+      left: 1456px;
+      width: 104px;
+      color: #ffd166;
+    }
+
+    #scene-3-flame {
+      position: absolute;
+      width: 18px;
+      height: 26px;
+      z-index: 6;
+      pointer-events: none;
+      transform-origin: 50% 100%;
+    }
+    #scene-3-flame svg {
+      display: block;
+      width: 18px;
+      height: 26px;
+    }
+
+    #scene-3-burn-label {
+      position: absolute;
+      left: 520px;
+      top: 268px;
+      z-index: 6;
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.25cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #ff6b35;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    #scene-3-dv-card {
+      position: absolute;
+      left: 1396px;
+      top: 768px;
+      width: 424px;
+      padding: 1.15cqw 1.45cqw 1.25cqw;
+      background: rgba(11, 20, 38, 0.72);
+      border: 1px solid rgba(79, 195, 247, 0.35);
+      border-radius: 0;
+      z-index: 7;
+    }
+    .scene-3-dv-kicker {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 0.9cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4fc3f7;
+      margin: 0 0 0.45cqw;
+      line-height: 1.2;
+    }
+    .scene-3-counter-wrap {
+      display: flex;
+      align-items: baseline;
+      width: 18cqw;
+    }
+    .scene-3-dv-plus,
+    #scene-3-counter {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 2.4cqw;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: #ff6b35;
+    }
+    #scene-3-counter {
+      display: inline-block;
+      min-width: 5.8cqw;
+      transform-origin: left center;
+    }
+    .scene-3-counter-suffix {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.35cqw;
+      letter-spacing: 0.04em;
+      color: #e8eef7;
+      margin-left: 0.45cqw;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+
+  <div data-hf-id="hf-d1qv" id="root" data-composition-id="scene-3" data-start="0" data-duration="8.6" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-4z8w" id="scene-3-ground" class="clip" data-start="0" data-duration="8.6" data-track-index="0"></div>
+
+    <div data-hf-id="hf-sf3l" id="scene-3-stars-far-wrap" class="clip" data-layout-allow-overflow="true" data-start="0" data-duration="8.6" data-track-index="1">
+      <canvas data-hf-id="hf-xxsm" id="scene-3-stars-far" width="2080" height="1080"></canvas>
+    </div>
+
+    <div data-hf-id="hf-zvh5" id="scene-3-stars-near-wrap" class="clip" data-layout-allow-overflow="true" data-start="0" data-duration="8.6" data-track-index="2">
+      <canvas data-hf-id="hf-d81p" id="scene-3-stars-near" width="2080" height="1080"></canvas>
+    </div>
+
+    <div data-hf-id="hf-llc9" id="scene-3-diagram" class="clip" data-start="0" data-duration="8.6" data-track-index="3">
+      <svg data-hf-id="hf-7yl3" id="scene-3-map" viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+        <path data-hf-id="hf-vgru" id="scene-3-traj-glow" d="M450 501 C760 350 1140 300 1410 425 C1525 475 1640 500 1618 575 C1598 642 1488 698 1348 678" />
+        <path data-hf-id="hf-yrs4" id="scene-3-traj-path" d="M450 501 C760 350 1140 300 1410 425 C1525 475 1640 500 1618 575 C1598 642 1488 698 1348 678" />
+      </svg>
+
+      <div data-hf-id="hf-95ow" id="scene-3-earth">
+        <div data-hf-id="hf-2zlp" class="scene-3-disc scene-3-earth-disc"></div>
+      </div>
+      <p data-hf-id="hf-3hcf" id="scene-3-earth-label" class="scene-3-node-label">EARTH</p>
+
+      <div data-hf-id="hf-ewn3" id="scene-3-moon">
+        <div data-hf-id="hf-e7jq" class="scene-3-disc scene-3-moon-disc"></div>
+      </div>
+      <p data-hf-id="hf-6wzr" id="scene-3-moon-label" class="scene-3-node-label">MOON</p>
+
+      <div data-hf-id="hf-3rbp" id="scene-3-flame">
+        <svg data-hf-id="hf-2hpg" viewBox="0 0 18 26" xmlns="http://www.w3.org/2000/svg">
+          <path data-hf-id="hf-t25b" d="M9 25 C3.5 17 3 11 9 1 C11 8 13.5 9 12.5 13.5 C16 10 16.5 17 9 25 Z" fill="#FF6B35" />
+        </svg>
+      </div>
+      <p data-hf-id="hf-f7v3" id="scene-3-burn-label">TRANS-LUNAR INJECTION BURN · 6 MIN</p>
+    </div>
+
+    <div data-hf-id="hf-rgxi" id="scene-3-dv-clip" class="clip" data-start="0" data-duration="8.6" data-track-index="4">
+      <div data-hf-id="hf-q8q5" id="scene-3-dv-card">
+        <p data-hf-id="hf-wlio" class="scene-3-dv-kicker">Δv</p>
+        <div data-hf-id="hf-6sac" class="scene-3-counter-wrap">
+          <span data-hf-id="hf-g0t8" class="scene-3-dv-plus">+</span>
+          <span data-hf-id="hf-pe1r" id="scene-3-counter">0.00</span>
+          <span data-hf-id="hf-vsqw" id="scene-3-suffix" class="scene-3-counter-suffix">km/s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function paintStars(canvas, rng, count, minR, maxR) {
+        var ctx = canvas.getContext("2d");
+        var w = canvas.width;
+        var h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < count; i++) {
+          var x = rng() * w;
+          var y = rng() * h;
+          var r = minR + rng() * (maxR - minR);
+          var roll = rng();
+          var alpha = 0.28 + rng() * 0.62;
+          var fill;
+          if (roll < 0.06) {
+            fill = "rgba(79,195,247," + alpha + ")";
+          } else if (roll < 0.1) {
+            fill = "rgba(255,209,102," + alpha + ")";
+          } else {
+            fill = "rgba(232,238,247," + alpha + ")";
+          }
+          ctx.fillStyle = fill;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      var rng = mulberry32(33033);
+      paintStars(document.getElementById("scene-3-stars-far"), rng, 140, 0.55, 1.35);
+      paintStars(document.getElementById("scene-3-stars-near"), rng, 48, 1.05, 2.15);
+
+      var path = document.getElementById("scene-3-traj-path");
+      var glow = document.getElementById("scene-3-traj-glow");
+      var len = path.getTotalLength();
+      path.style.strokeDasharray = String(len);
+      path.style.strokeDashoffset = String(len);
+      glow.style.strokeDasharray = String(len);
+      glow.style.strokeDashoffset = String(len);
+
+      var burnAt = len * 0.09;
+      var burnPt = path.getPointAtLength(burnAt);
+      var flame = document.getElementById("scene-3-flame");
+      flame.style.left = burnPt.x - 9 + "px";
+      flame.style.top = burnPt.y - 26 + "px";
+
+      var counter = document.getElementById("scene-3-counter");
+      var state = { value: 0 };
+      var START_SCALE = 0.52;
+
+      var tl = gsap.timeline({ paused: true });
+
+      tl.fromTo(
+        "#scene-3-stars-far",
+        { x: 0 },
+        { x: -32, duration: 8, ease: "none" },
+        0
+      );
+      tl.fromTo(
+        "#scene-3-stars-near",
+        { x: 0 },
+        { x: -84, duration: 8, ease: "none" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-3-earth",
+        { opacity: 0, scale: 0.86 },
+        { opacity: 1, scale: 1, duration: 0.85, ease: "power3.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-3-moon",
+        { opacity: 0, scale: 0.86 },
+        { opacity: 1, scale: 1, duration: 0.85, ease: "power3.out" },
+        0.12
+      );
+      tl.fromTo(
+        "#scene-3-earth-label",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        0.28
+      );
+      tl.fromTo(
+        "#scene-3-moon-label",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        0.38
+      );
+
+      tl.fromTo(
+        [path, glow],
+        { strokeDashoffset: len },
+        { strokeDashoffset: 0, duration: 2.7, ease: "expo.out" },
+        1.5
+      );
+
+      tl.fromTo(
+        "#scene-3-flame",
+        { opacity: 0, scale: 0.55 },
+        { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" },
+        1.5
+      );
+      tl.fromTo(
+        "#scene-3-burn-label",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        1.86
+      );
+
+      tl.fromTo(
+        "#scene-3-dv-card",
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        4.2
+      );
+      tl.fromTo(
+        ".scene-3-dv-kicker",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+        4.2
+      );
+      tl.to(
+        state,
+        {
+          value: 3.05,
+          duration: 1.7,
+          ease: "power3.out",
+          onUpdate: function () {
+            counter.textContent = (Math.round(state.value * 100) / 100).toFixed(2);
+          },
+        },
+        4.35
+      );
+      tl.fromTo(
+        "#scene-3-counter",
+        { scale: START_SCALE },
+        { scale: 1, duration: 1.7, ease: "power3.out" },
+        4.35
+      );
+      tl.fromTo(
+        "#scene-3-suffix",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" },
+        6.05
+      );
+
+      window.__timelines["scene-3"] = tl;
+    })();
+  </script>
+</template>

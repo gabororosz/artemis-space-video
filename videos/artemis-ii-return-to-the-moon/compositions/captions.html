@@ -1,0 +1,221 @@
+<template id="captions-template" data-composition-id="captions" data-width="1920" data-height="1080">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+
+<style data-brand-tokens="">
+      @font-face { font-family: 'Space Grotesk'; src: url('assets/fonts/SpaceGrotesk-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+      @font-face { font-family: 'Space Grotesk'; src: url('assets/fonts/SpaceGrotesk-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: block; }
+      @font-face { font-family: 'Space Grotesk'; src: url('assets/fonts/SpaceGrotesk-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: block; }
+      @font-face { font-family: 'Space Grotesk'; src: url('assets/fonts/SpaceGrotesk-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: block; }
+      :root {
+      --ink-black: #05070D;
+      --ink-black-alt: #0B1426;
+      --fire-orange: #FF6B35;
+      --cream: #E8EEF7;
+      --cream-muted: #4FC3F7;
+      --cream-hint: #FFD166;
+      --border-dark: #1A2438;
+      --deep-navy: #0B1426;
+      --telemetry-cyan: #4FC3F7;
+      --lunar-gold: #FFD166;
+      --ink-on-orange-muted: rgba(17,17,17,0.75);
+      --ink-on-orange-hint: rgba(17,17,17,0.55);
+      --ink-on-orange-faint: rgba(17,17,17,0.40);
+      --ink-on-orange-border: rgba(17,17,17,0.20);
+      --cap-ink: #05070D;
+      --cap-canvas: #E8EEF7;
+      --cap-accent: #FF6B35;
+      --cap-accent-2: #4FC3F7;
+      --font-display: "Space Grotesk", system-ui, serif;
+      --font-body: "Space Grotesk", system-ui, sans-serif;
+      --cap-band-top: 900px;
+      --cap-band-height: 180px;
+      }
+    </style>
+
+<style>
+  #captions-root {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .caption-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+  }
+  /* the keep-out band, from captionBand(H) — frame content stays above it */
+  .caption-stage {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--cap-band-top, 900px);
+    height: var(--cap-band-height, 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .caption-group {
+    /* every group is absolutely stacked over the SAME band — exactly one shown at a
+       time via opacity. Must be absolute: in-flow groups would lay out side-by-side. */
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .caption-pill {
+    max-width: 86%;
+    padding: 10px 28px 14px;
+    background: rgba(5, 7, 13, 0.55);
+    border: 0;
+    border-radius: 0;
+  }
+  .caption-line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.06em 0.28em;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 500;
+    font-size: clamp(26px, 2.2vw, 34px);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    text-shadow: 0 2px 12px rgba(5, 7, 13, 0.85);
+  }
+
+  .caption-word {
+    display: inline-block;
+    padding: 0 0.04em;
+    color: rgba(232, 238, 247, 0.42);
+  }
+  .caption-word.is-active {
+    color: #e8eef7;
+    background: transparent;
+    box-shadow: none;
+    text-shadow:
+      0 0 18px rgba(79, 195, 247, 0.35),
+      0 2px 12px rgba(5, 7, 13, 0.85);
+  }
+  .caption-word.is-spoken {
+    color: rgba(232, 238, 247, 0.78);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* optional per-word accents (dormant until a word-classer tags them) */
+  /* brand / key term — fire-orange ink, the cream-on-ink register's only inflection */
+  .caption-word.cap-brand {
+    color: var(--cap-accent, #e85d26);
+  }
+  /* numerals / data — the IBM Plex Mono chrome voice, uppercase + tracked, recessed */
+  .caption-word.cap-num {
+    font-family: "Space Grotesk", ui-monospace, monospace;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: color-mix(in srgb, var(--cap-canvas, #f0ece5) 72%, var(--cap-ink, #111111));
+  }
+  /* emphasis — a fire-orange hairline underline (no second hue; the lone accent again) */
+  .caption-word.cap-cta {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--cap-accent-2, #e85d26);
+    text-underline-offset: 0.1em;
+  }
+
+  @media (max-aspect-ratio: 9/16) {
+    .caption-pill {
+      max-width: 92%;
+    }
+    .caption-line {
+      font-size: clamp(32px, 5.2vw, 46px);
+    }
+  }
+</style>
+
+<div data-hf-id="hf-msup" id="captions-root" data-composition-id="captions" data-timeline-locked="" data-start="0" data-duration="60.432" data-fps="30" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-9flp" class="caption-layer" aria-hidden="true">
+    <div data-hf-id="hf-ajrg" id="caption-stage" class="caption-stage"></div>
+  </div>
+</div>
+
+<script>
+  // captions.mjs injects the engine's scene-aware groups + real duration here.
+  var GROUPS = [{"id":"caption-group-0","frame":1,"start":0.08,"end":1.064,"text":"April first,","words":[{"id":"caption-word-0-0","text":"April","start":0.08,"end":0.326},{"id":"caption-word-0-1","text":"first,","start":0.326,"end":1.064}]},{"id":"caption-group-1","frame":1,"start":1.064,"end":2.295,"text":"twenty twenty-six.","words":[{"id":"caption-word-1-0","text":"twenty","start":1.064,"end":1.36},{"id":"caption-word-1-1","text":"twenty-six.","start":1.36,"end":2.295}]},{"id":"caption-group-2","frame":1,"start":2.295,"end":3.279,"text":"Artemis Two.","words":[{"id":"caption-word-2-0","text":"Artemis","start":2.295,"end":2.639},{"id":"caption-word-2-1","text":"Two.","start":2.639,"end":3.279}]},{"id":"caption-group-3","frame":1,"start":3.279,"end":3.673,"text":"The first","words":[{"id":"caption-word-3-0","text":"The","start":3.279,"end":3.427},{"id":"caption-word-3-1","text":"first","start":3.427,"end":3.673}]},{"id":"caption-group-4","frame":1,"start":3.673,"end":4.214,"text":"crewed lunar","words":[{"id":"caption-word-4-0","text":"crewed","start":3.673,"end":3.968},{"id":"caption-word-4-1","text":"lunar","start":3.968,"end":4.214}]},{"id":"caption-group-5","frame":1,"start":4.214,"end":4.608,"text":"flyby in","words":[{"id":"caption-word-5-0","text":"flyby","start":4.214,"end":4.46},{"id":"caption-word-5-1","text":"in","start":4.46,"end":4.608}]},{"id":"caption-group-6","frame":1,"start":4.608,"end":5.909,"text":"over fifty years.","words":[{"id":"caption-word-6-0","text":"over","start":4.608,"end":4.805},{"id":"caption-word-6-1","text":"fifty","start":4.805,"end":5.051},{"id":"caption-word-6-2","text":"years.","start":5.051,"end":5.789}]},{"id":"caption-group-7","frame":2,"start":8.08,"end":8.516,"text":"The Space","words":[{"id":"caption-word-7-0","text":"The","start":8.08,"end":8.243},{"id":"caption-word-7-1","text":"Space","start":8.243,"end":8.516}]},{"id":"caption-group-8","frame":2,"start":8.516,"end":9.169,"text":"Launch System","words":[{"id":"caption-word-8-0","text":"Launch","start":8.516,"end":8.843},{"id":"caption-word-8-1","text":"System","start":8.843,"end":9.169}]},{"id":"caption-group-9","frame":2,"start":9.169,"end":9.714,"text":"lifts Orion","words":[{"id":"caption-word-9-0","text":"lifts","start":9.169,"end":9.442},{"id":"caption-word-9-1","text":"Orion","start":9.442,"end":9.714}]},{"id":"caption-group-10","frame":2,"start":9.714,"end":10.096,"text":"into a","words":[{"id":"caption-word-10-0","text":"into","start":9.714,"end":9.932},{"id":"caption-word-10-1","text":"a","start":9.932,"end":10.096}]},{"id":"caption-group-11","frame":2,"start":10.096,"end":11.131,"text":"high elliptical Earth","words":[{"id":"caption-word-11-0","text":"high","start":10.096,"end":10.313},{"id":"caption-word-11-1","text":"elliptical","start":10.313,"end":10.858},{"id":"caption-word-11-2","text":"Earth","start":10.858,"end":11.131}]},{"id":"caption-group-12","frame":2,"start":11.131,"end":11.948,"text":"orbit.","words":[{"id":"caption-word-12-0","text":"orbit.","start":11.131,"end":11.948}]},{"id":"caption-group-13","frame":2,"start":11.948,"end":12.765,"text":"Twenty-four hours","words":[{"id":"caption-word-13-0","text":"Twenty-four","start":11.948,"end":12.492},{"id":"caption-word-13-1","text":"hours","start":12.492,"end":12.765}]},{"id":"caption-group-14","frame":2,"start":12.765,"end":13.255,"text":"of system","words":[{"id":"caption-word-14-0","text":"of","start":12.765,"end":12.928},{"id":"caption-word-14-1","text":"system","start":12.928,"end":13.255}]},{"id":"caption-group-15","frame":2,"start":13.255,"end":14.29,"text":"checkouts before they","words":[{"id":"caption-word-15-0","text":"checkouts","start":13.255,"end":13.745},{"id":"caption-word-15-1","text":"before","start":13.745,"end":14.072},{"id":"caption-word-15-2","text":"they","start":14.072,"end":14.29}]},{"id":"caption-group-16","frame":2,"start":14.29,"end":15.445,"text":"leave home.","words":[{"id":"caption-word-16-0","text":"leave","start":14.29,"end":14.562},{"id":"caption-word-16-1","text":"home.","start":14.562,"end":15.325}]},{"id":"caption-group-17","frame":3,"start":16.08,"end":16.392,"text":"Then the","words":[{"id":"caption-word-17-0","text":"Then","start":16.08,"end":16.258},{"id":"caption-word-17-1","text":"the","start":16.258,"end":16.392}]},{"id":"caption-group-18","frame":3,"start":16.392,"end":17.861,"text":"trans-lunar injection burn.","words":[{"id":"caption-word-18-0","text":"trans-lunar","start":16.392,"end":16.837},{"id":"caption-word-18-1","text":"injection","start":16.837,"end":17.238},{"id":"caption-word-18-2","text":"burn.","start":17.238,"end":17.861}]},{"id":"caption-group-19","frame":3,"start":17.861,"end":18.751,"text":"Six minutes.","words":[{"id":"caption-word-19-0","text":"Six","start":17.861,"end":17.995},{"id":"caption-word-19-1","text":"minutes.","start":17.995,"end":18.751}]},{"id":"caption-group-20","frame":3,"start":18.751,"end":20.221,"text":"A free-return trajectory,","words":[{"id":"caption-word-20-0","text":"A","start":18.751,"end":18.885},{"id":"caption-word-20-1","text":"free-return","start":18.885,"end":19.33},{"id":"caption-word-20-2","text":"trajectory,","start":19.33,"end":20.221}]},{"id":"caption-group-21","frame":3,"start":20.221,"end":20.755,"text":"locked toward","words":[{"id":"caption-word-21-0","text":"locked","start":20.221,"end":20.488},{"id":"caption-word-21-1","text":"toward","start":20.488,"end":20.755}]},{"id":"caption-group-22","frame":3,"start":20.755,"end":21.632,"text":"the Moon.","words":[{"id":"caption-word-22-0","text":"the","start":20.755,"end":20.889},{"id":"caption-word-22-1","text":"Moon.","start":20.889,"end":21.512}]},{"id":"caption-group-23","frame":4,"start":24.08,"end":25.496,"text":"Four days outbound.","words":[{"id":"caption-word-23-0","text":"Four","start":24.08,"end":24.298},{"id":"caption-word-23-1","text":"days","start":24.298,"end":24.516},{"id":"caption-word-23-2","text":"outbound.","start":24.516,"end":25.496}]},{"id":"caption-group-24","frame":4,"start":25.496,"end":26.095,"text":"Orion coasts","words":[{"id":"caption-word-24-0","text":"Orion","start":25.496,"end":25.768},{"id":"caption-word-24-1","text":"coasts","start":25.768,"end":26.095}]},{"id":"caption-group-25","frame":4,"start":26.095,"end":26.694,"text":"across three","words":[{"id":"caption-word-25-0","text":"across","start":26.095,"end":26.422},{"id":"caption-word-25-1","text":"three","start":26.422,"end":26.694}]},{"id":"caption-group-26","frame":4,"start":26.694,"end":28.056,"text":"hundred eighty-four thousand","words":[{"id":"caption-word-26-0","text":"hundred","start":26.694,"end":27.075},{"id":"caption-word-26-1","text":"eighty-four","start":27.075,"end":27.62},{"id":"caption-word-26-2","text":"thousand","start":27.62,"end":28.056}]},{"id":"caption-group-27","frame":4,"start":28.056,"end":28.764,"text":"kilometers of","words":[{"id":"caption-word-27-0","text":"kilometers","start":28.056,"end":28.6},{"id":"caption-word-27-1","text":"of","start":28.6,"end":28.764}]},{"id":"caption-group-28","frame":4,"start":28.764,"end":29.973,"text":"empty space.","words":[{"id":"caption-word-28-0","text":"empty","start":28.764,"end":29.036},{"id":"caption-word-28-1","text":"space.","start":29.036,"end":29.853}]},{"id":"caption-group-29","frame":5,"start":32.08,"end":33.006,"text":"April sixth.","words":[{"id":"caption-word-29-0","text":"April","start":32.08,"end":32.311},{"id":"caption-word-29-1","text":"sixth.","start":32.311,"end":33.006}]},{"id":"caption-group-30","frame":5,"start":33.006,"end":34.163,"text":"Closest approach:","words":[{"id":"caption-word-30-0","text":"Closest","start":33.006,"end":33.33},{"id":"caption-word-30-1","text":"approach:","start":33.33,"end":34.163}]},{"id":"caption-group-31","frame":5,"start":34.163,"end":34.673,"text":"six thousand","words":[{"id":"caption-word-31-0","text":"six","start":34.163,"end":34.302},{"id":"caption-word-31-1","text":"thousand","start":34.302,"end":34.673}]},{"id":"caption-group-32","frame":5,"start":34.673,"end":35.182,"text":"five hundred","words":[{"id":"caption-word-32-0","text":"five","start":34.673,"end":34.858},{"id":"caption-word-32-1","text":"hundred","start":34.858,"end":35.182}]},{"id":"caption-group-33","frame":5,"start":35.182,"end":36.247,"text":"forty-five kilometers from","words":[{"id":"caption-word-33-0","text":"forty-five","start":35.182,"end":35.599},{"id":"caption-word-33-1","text":"kilometers","start":35.599,"end":36.062},{"id":"caption-word-33-2","text":"from","start":36.062,"end":36.247}]},{"id":"caption-group-34","frame":5,"start":36.247,"end":36.617,"text":"the lunar","words":[{"id":"caption-word-34-0","text":"the","start":36.247,"end":36.386},{"id":"caption-word-34-1","text":"lunar","start":36.386,"end":36.617}]},{"id":"caption-group-35","frame":5,"start":36.617,"end":37.404,"text":"far side.","words":[{"id":"caption-word-35-0","text":"far","start":36.617,"end":36.756},{"id":"caption-word-35-1","text":"side.","start":36.756,"end":37.404}]},{"id":"caption-group-36","frame":5,"start":37.404,"end":37.914,"text":"The farthest","words":[{"id":"caption-word-36-0","text":"The","start":37.404,"end":37.543},{"id":"caption-word-36-1","text":"farthest","start":37.543,"end":37.914}]},{"id":"caption-group-37","frame":5,"start":37.914,"end":38.377,"text":"humans have","words":[{"id":"caption-word-37-0","text":"humans","start":37.914,"end":38.191},{"id":"caption-word-37-1","text":"have","start":38.191,"end":38.377}]},{"id":"caption-group-38","frame":5,"start":38.377,"end":39.395,"text":"ever traveled.","words":[{"id":"caption-word-38-0","text":"ever","start":38.377,"end":38.562},{"id":"caption-word-38-1","text":"traveled.","start":38.562,"end":39.395}]},{"id":"caption-group-39","frame":5,"start":39.395,"end":40.182,"text":"Wiseman.","words":[{"id":"caption-word-39-0","text":"Wiseman.","start":39.395,"end":40.182}]},{"id":"caption-group-40","frame":5,"start":40.182,"end":40.923,"text":"Glover.","words":[{"id":"caption-word-40-0","text":"Glover.","start":40.182,"end":40.923}]},{"id":"caption-group-41","frame":5,"start":40.923,"end":41.571,"text":"Koch.","words":[{"id":"caption-word-41-0","text":"Koch.","start":40.923,"end":41.571}]},{"id":"caption-group-42","frame":5,"start":41.571,"end":42.432,"text":"Hansen.","words":[{"id":"caption-word-42-0","text":"Hansen.","start":41.571,"end":42.312}]},{"id":"caption-group-43","frame":6,"start":42.512,"end":43.148,"text":"Gravity brings","words":[{"id":"caption-word-43-0","text":"Gravity","start":42.512,"end":42.855},{"id":"caption-word-43-1","text":"brings","start":42.855,"end":43.148}]},{"id":"caption-group-44","frame":6,"start":43.148,"end":44.029,"text":"them home.","words":[{"id":"caption-word-44-0","text":"them","start":43.148,"end":43.344},{"id":"caption-word-44-1","text":"home.","start":43.344,"end":44.029}]},{"id":"caption-group-45","frame":6,"start":44.029,"end":44.665,"text":"The free-return","words":[{"id":"caption-word-45-0","text":"The","start":44.029,"end":44.176},{"id":"caption-word-45-1","text":"free-return","start":44.176,"end":44.665}]},{"id":"caption-group-46","frame":6,"start":44.665,"end":45.742,"text":"arc completes.","words":[{"id":"caption-word-46-0","text":"arc","start":44.665,"end":44.812},{"id":"caption-word-46-1","text":"completes.","start":44.812,"end":45.742}]},{"id":"caption-group-47","frame":6,"start":45.742,"end":46.231,"text":"Re-entry at","words":[{"id":"caption-word-47-0","text":"Re-entry","start":45.742,"end":46.084},{"id":"caption-word-47-1","text":"at","start":46.084,"end":46.231}]},{"id":"caption-group-48","frame":6,"start":46.231,"end":47.014,"text":"eleven kilometers","words":[{"id":"caption-word-48-0","text":"eleven","start":46.231,"end":46.525},{"id":"caption-word-48-1","text":"kilometers","start":46.525,"end":47.014}]},{"id":"caption-group-49","frame":6,"start":47.014,"end":48.064,"text":"per second.","words":[{"id":"caption-word-49-0","text":"per","start":47.014,"end":47.161},{"id":"caption-word-49-1","text":"second.","start":47.161,"end":47.944}]},{"id":"caption-group-50","frame":7,"start":50.512,"end":51.189,"text":"Ten days.","words":[{"id":"caption-word-50-0","text":"Ten","start":50.512,"end":50.632},{"id":"caption-word-50-1","text":"days.","start":50.632,"end":51.189}]},{"id":"caption-group-51","frame":7,"start":51.189,"end":51.906,"text":"One flyby.","words":[{"id":"caption-word-51-0","text":"One","start":51.189,"end":51.309},{"id":"caption-word-51-1","text":"flyby.","start":51.309,"end":51.906}]},{"id":"caption-group-52","frame":7,"start":51.906,"end":52.862,"text":"Four astronauts.","words":[{"id":"caption-word-52-0","text":"Four","start":51.906,"end":52.066},{"id":"caption-word-52-1","text":"astronauts.","start":52.066,"end":52.862}]},{"id":"caption-group-53","frame":7,"start":52.862,"end":53.898,"text":"Infinite ambition.","words":[{"id":"caption-word-53-0","text":"Infinite","start":52.862,"end":53.181},{"id":"caption-word-53-1","text":"ambition.","start":53.181,"end":53.898}]},{"id":"caption-group-54","frame":7,"start":53.898,"end":54.456,"text":"Next:","words":[{"id":"caption-word-54-0","text":"Next:","start":53.898,"end":54.456}]},{"id":"caption-group-55","frame":7,"start":54.456,"end":55.332,"text":"Artemis Three.","words":[{"id":"caption-word-55-0","text":"Artemis","start":54.456,"end":54.735},{"id":"caption-word-55-1","text":"Three.","start":54.735,"end":55.332}]},{"id":"caption-group-56","frame":7,"start":55.332,"end":55.651,"text":"Boots on","words":[{"id":"caption-word-56-0","text":"Boots","start":55.332,"end":55.531},{"id":"caption-word-56-1","text":"on","start":55.531,"end":55.651}]},{"id":"caption-group-57","frame":7,"start":55.651,"end":56.448,"text":"the Moon.","words":[{"id":"caption-word-57-0","text":"the","start":55.651,"end":55.77},{"id":"caption-word-57-1","text":"Moon.","start":55.77,"end":56.328}]}];
+  var DURATION = 60.432;
+
+  (function () {
+    var stage = document.getElementById("caption-stage");
+
+    // build DOM: one .caption-group per group, .caption-word per word
+    GROUPS.forEach(function (group, g) {
+      var groupEl = document.createElement("div");
+      groupEl.className = "caption-group";
+      groupEl.id = "caption-group-" + g;
+      var pill = document.createElement("div");
+      pill.className = "caption-pill";
+      var line = document.createElement("div");
+      line.className = "caption-line";
+      (group.words || []).forEach(function (w, i) {
+        var span = document.createElement("span");
+        span.className = "caption-word";
+        span.id = "caption-word-" + g + "-" + i;
+        span.textContent = String(w.text);
+        line.appendChild(span);
+      });
+      pill.appendChild(line);
+      groupEl.appendChild(pill);
+      stage.appendChild(groupEl);
+    });
+
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+
+    GROUPS.forEach(function (group, g) {
+      var groupEl = document.getElementById("caption-group-" + g);
+      var words = group.words || [];
+      var next = GROUPS[g + 1];
+      var isLast = g === GROUPS.length - 1;
+      var start = Math.max(0, Number(group.start));
+      var end = isLast ? DURATION : Math.min(Number(next.start), Number(group.end) + 0.3);
+      if (end <= start) end = start + 0.01;
+
+      // group on/off — exactly one group visible at a time
+      tl.set(groupEl, { opacity: 1 }, start);
+      tl.set(groupEl, { opacity: 0 }, end);
+
+      // 3-state karaoke via className SETS — seek-safe (gsap.set applies on the
+      // engine's frame-by-frame seek; .call callbacks would NOT fire).
+      words.forEach(function (w, i) {
+        var el = document.getElementById("caption-word-" + g + "-" + i);
+        var at = Math.max(start, Number(w.start));
+        tl.set(el, { className: "caption-word" }, start); // upcoming (also resets on reverse-seek)
+        tl.set(el, { className: "caption-word is-active" }, at); // current
+        tl.fromTo(el, { scale: 0.92 }, { scale: 1, duration: 0.1, ease: "power3.out" }, at);
+        if (i + 1 < words.length) {
+          var nextAt = Math.max(start, Number(words[i + 1].start));
+          tl.set(el, { className: "caption-word is-spoken" }, nextAt); // demote when next activates
+        }
+      });
+      if (words.length) {
+        var lastEl = document.getElementById("caption-word-" + g + "-" + (words.length - 1));
+        var lastSpoken = Math.min(end, Number(words[words.length - 1].end) + 0.1);
+        tl.set(lastEl, { className: "caption-word is-spoken" }, lastSpoken);
+      }
+    });
+
+    // full-span anchor so the sub-comp timeline spans the whole video
+    tl.to({}, { duration: DURATION }, 0);
+    window.__timelines["captions"] = tl;
+  })();
+</script>
+
+<style>
+  .caption-line { line-height: 1.1 !important; }
+</style>
+</template>

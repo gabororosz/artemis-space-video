@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "youtube",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.320Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.356Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.393Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.427Z"
+    },
+    "storyboard": {
+      "value": "no",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.482Z"
+    },
+    "voice": {
+      "value": "bf_emma",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.533Z"
+    },
+    "style_preset.faceless-explainer": {
+      "value": "broadside",
+      "confirmed_in": [
+        "artemis-ii-return-to-the-moon"
+      ],
+      "updated_at": "2026-08-27T21:50:52.570Z"
+    }
+  },
+  "sightings": {}
+}

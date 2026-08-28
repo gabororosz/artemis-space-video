@@ -1,0 +1,17 @@
+# HyperFrames / Studio caches
+**/.thumbnails/
+**/.waveform-cache/
+**/snapshots/
+**/node_modules/
+
+# Render outputs
+**/renders/
+
+# Generated worker packets
+**/.hyperframes/frame-packets/
+
+# Secrets
+.env
+.env.*
+*.pem
+credentials.json

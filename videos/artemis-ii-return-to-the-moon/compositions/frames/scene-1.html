@@ -1,0 +1,301 @@
+<template>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-400.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-500.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-600.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-700.woff2") format("woff2");}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      color: #E8EEF7;
+    }
+
+    #scene-1-ground {
+      position: absolute;
+      inset: 0;
+      background: #05070D;
+    }
+
+    #scene-1-swell {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 55% at 50% 48%, rgba(11, 20, 38, 0.55) 0%, rgba(5, 7, 13, 0) 68%);
+    }
+
+    #scene-1-starfield {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    #scene-1-stars-far,
+    #scene-1-stars-mid,
+    #scene-1-stars-near {
+      position: absolute;
+      left: -64px;
+      top: -44px;
+      display: block;
+    }
+
+    #scene-1-patch {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 640px;
+      height: 640px;
+      margin-left: -320px;
+      margin-top: -320px;
+      pointer-events: none;
+    }
+
+    #scene-1-patch svg {
+      display: block;
+      width: 640px;
+      height: 640px;
+    }
+
+    #scene-1-lockup {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 540px;
+      height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    #scene-1-title {
+      margin-top: -79px;
+      height: 158px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 180px;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #E8EEF7;
+      white-space: nowrap;
+    }
+
+    #scene-1-rule {
+      width: 36px;
+      height: 2px;
+      margin-top: 28px;
+      background: #FF6B35;
+    }
+
+    #scene-1-subtitle {
+      margin-top: 22px;
+      min-width: 920px;
+      height: 47px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+      color: #E8EEF7;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    #scene-1-stamp {
+      position: absolute;
+      left: 5.5cqw;
+      bottom: 48px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4FC3F7;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  </style>
+
+  <div data-hf-id="hf-wx59" id="root" data-composition-id="scene-1" data-width="1920" data-height="1080" data-duration="8.6">
+    <div data-hf-id="hf-mvni" id="scene-1-ground" class="clip" data-start="0" data-duration="8.6" data-track-index="0">
+      <div data-hf-id="hf-mr0x" id="scene-1-swell"></div>
+    </div>
+
+    <div data-hf-id="hf-kwdh" id="scene-1-starfield" class="clip" data-layout-allow-overflow="true" data-start="0" data-duration="8.6" data-track-index="1">
+      <canvas data-hf-id="hf-385j" id="scene-1-stars-far" width="2048" height="1168"></canvas>
+      <canvas data-hf-id="hf-42y8" id="scene-1-stars-mid" width="2048" height="1168"></canvas>
+      <canvas data-hf-id="hf-707a" id="scene-1-stars-near" width="2048" height="1168"></canvas>
+    </div>
+
+    <div data-hf-id="hf-qxop" id="scene-1-patch" class="clip" data-start="0" data-duration="8.6" data-track-index="2">
+      <svg data-hf-id="hf-jigd" viewBox="0 0 640 640" width="640" height="640" aria-hidden="true">
+        <defs data-hf-id="hf-mh0t">
+          <mask data-hf-id="hf-jgrp" id="scene-1-crescent-mask">
+            <rect data-hf-id="hf-cj1y" width="640" height="640" fill="#000000" />
+            <circle data-hf-id="hf-06mj" cx="338" cy="320" r="188" fill="#ffffff" />
+            <circle data-hf-id="hf-fjqz" cx="274" cy="320" r="152" fill="#000000" />
+          </mask>
+        </defs>
+        <circle data-hf-id="hf-8twg" cx="338" cy="320" r="188" fill="#E8EEF7" mask="url(#scene-1-crescent-mask)" />
+        <path data-hf-id="hf-ylo5" d="M 372 320
+             C 372 248 448 204 516 248
+             C 574 286 574 354 516 392
+             C 448 436 372 392 372 320
+             C 372 392 296 436 228 392
+             C 170 354 170 286 228 248
+             C 296 204 372 248 372 320" fill="none" stroke="#4FC3F7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+        <circle data-hf-id="hf-cd76" cx="372" cy="320" r="6" fill="#FF6B35" />
+      </svg>
+    </div>
+
+    <div data-hf-id="hf-yh0a" id="scene-1-lockup" class="clip" data-start="0" data-duration="8.6" data-track-index="3">
+      <div data-hf-id="hf-jun3" id="scene-1-title">ARTEMIS II</div>
+      <div data-hf-id="hf-kub8" id="scene-1-rule"></div>
+      <div data-hf-id="hf-igiy" id="scene-1-subtitle"></div>
+    </div>
+
+    <div data-hf-id="hf-covl" id="scene-1-stamp" class="clip" data-start="0" data-duration="8.6" data-track-index="4">
+      APR 01 2026 · 22:35 UTC · KSC LC-39B
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      var rng = mulberry32(11011);
+
+      function paintStars(canvas, count, sizeMin, sizeMax, alphaMin, alphaMax) {
+        var ctx = canvas.getContext("2d");
+        var w = canvas.width;
+        var h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < count; i++) {
+          var x = rng() * w;
+          var y = rng() * h;
+          var r = sizeMin + rng() * (sizeMax - sizeMin);
+          var a = alphaMin + rng() * (alphaMax - alphaMin);
+          var pick = rng();
+          var color = pick > 0.96 ? "#FF6B35" : pick > 0.88 ? "#FFD166" : pick > 0.78 ? "#4FC3F7" : "#E8EEF7";
+          ctx.globalAlpha = a;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      paintStars(document.getElementById("scene-1-stars-far"), 220, 0.4, 1.1, 0.18, 0.42);
+      paintStars(document.getElementById("scene-1-stars-mid"), 80, 0.8, 1.7, 0.32, 0.62);
+      paintStars(document.getElementById("scene-1-stars-near"), 28, 1.3, 2.4, 0.5, 0.9);
+
+      var subtitleEl = document.getElementById("scene-1-subtitle");
+      var SEQUENCE = [
+        { t: 3.6, text: "First Crewed" },
+        { t: 4.35, text: "First Crewed Lunar Flyby" },
+        { t: 5.2, text: "First Crewed Lunar Flyby in Over 50 Years" },
+      ];
+
+      function textAt(time) {
+        for (var i = SEQUENCE.length - 1; i >= 0; i--) {
+          if (time >= SEQUENCE[i].t) return SEQUENCE[i].text;
+        }
+        return "";
+      }
+
+      var tl = gsap.timeline({ paused: true });
+
+      tl.fromTo(
+        "#scene-1-stars-far",
+        { x: 0, y: 0 },
+        { x: -16, y: -6, duration: 8, ease: "none" },
+        0
+      );
+      tl.fromTo(
+        "#scene-1-stars-mid",
+        { x: 0, y: 0 },
+        { x: -34, y: -12, duration: 8, ease: "none" },
+        0
+      );
+      tl.fromTo(
+        "#scene-1-stars-near",
+        { x: 0, y: 0 },
+        { x: -56, y: -20, duration: 8, ease: "none" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-1-patch",
+        { opacity: 0 },
+        { opacity: 0.35, duration: 1.2, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-1-title",
+        { opacity: 0, scale: 0.96 },
+        { opacity: 1, scale: 1, duration: 1.4, ease: "power3.out", transformOrigin: "50% 50%" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-1-rule",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.55, ease: "power3.out" },
+        3.6
+      );
+
+      tl.fromTo(
+        "#scene-1-subtitle",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.7, ease: "power3.out" },
+        3.6
+      );
+
+      var driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: 8,
+          duration: 8,
+          ease: "none",
+          onUpdate: function () {
+            subtitleEl.textContent = textAt(driver.t);
+          },
+        },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-1-stamp",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8, ease: "power3.out" },
+        5.8
+      );
+
+      window.__timelines["scene-1"] = tl;
+    })();
+  </script>
+</template>

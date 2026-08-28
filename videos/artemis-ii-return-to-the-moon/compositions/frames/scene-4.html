@@ -1,0 +1,442 @@
+<template>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-400.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-500.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-600.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-700.woff2") format("woff2");}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      color: #E8EEF7;
+    }
+
+    #scene-4-ground {
+      position: absolute;
+      inset: 0;
+      background: #05070D;
+    }
+
+    #scene-4-swell {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 62% 50% at 18% 50%, rgba(11, 20, 38, 0.7) 0%, rgba(5, 7, 13, 0) 72%);
+    }
+
+    #scene-4-starfield {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    #scene-4-stars-far,
+    #scene-4-stars-mid,
+    #scene-4-stars-near {
+      position: absolute;
+      left: -64px;
+      top: -44px;
+      display: block;
+    }
+
+    #scene-4-stage {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    #scene-4-camera {
+      position: absolute;
+      inset: 0;
+    }
+
+    #scene-4-earth {
+      position: absolute;
+      left: -200px;
+      top: 540px;
+      width: 560px;
+      height: 560px;
+      margin-top: -280px;
+    }
+
+    #scene-4-earth-disc {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 62% 38%, rgba(232, 238, 247, 0.42) 0%, rgba(79, 195, 247, 0.28) 18%, rgba(11, 20, 38, 0.92) 46%, rgba(5, 7, 13, 1) 74%);
+    }
+
+    #scene-4-earth-limb {
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      border: 2px solid rgba(79, 195, 247, 0.32);
+    }
+
+    #scene-4-orion {
+      position: absolute;
+      left: 140px;
+      top: 128px;
+      width: 480px;
+      height: 192px;
+    }
+
+    #scene-4-orion-svg {
+      display: block;
+      width: 480px;
+      height: 192px;
+    }
+
+    .scene-4-stroke {
+      fill: none;
+      stroke: #4FC3F7;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #scene-4-hatch {
+      stroke: #FF6B35;
+      stroke-width: 2;
+    }
+
+    #scene-4-dataviz {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    #scene-4-stat-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 428px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4FC3F7;
+      white-space: nowrap;
+    }
+
+    #scene-4-counter-wrap {
+      position: absolute;
+      left: 50%;
+      margin-left: -390px;
+      top: 462px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      width: 780px;
+      height: 88px;
+    }
+
+    #scene-4-counter {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 72px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: #FFD166;
+      white-space: nowrap;
+      transform-origin: 50% 100%;
+    }
+
+    #scene-4-suffix {
+      display: inline-block;
+      margin-left: 18px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4FC3F7;
+      white-space: nowrap;
+    }
+
+    #scene-4-bar-block {
+      position: absolute;
+      left: 50%;
+      margin-left: -360px;
+      top: 568px;
+      width: 720px;
+    }
+
+    #scene-4-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 720px;
+      margin-bottom: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4FC3F7;
+      white-space: nowrap;
+    }
+
+    #scene-4-track {
+      width: 720px;
+      height: 6px;
+      background: #0B1426;
+      border: 1px solid rgba(79, 195, 247, 0.35);
+      overflow: hidden;
+    }
+
+    #scene-4-fill {
+      width: 100%;
+      height: 100%;
+      background: #FF6B35;
+      transform-origin: left center;
+    }
+  </style>
+
+  <div data-hf-id="hf-9y9u" id="root" data-composition-id="scene-4" data-width="1920" data-height="1080" data-duration="8.6">
+    <div data-hf-id="hf-vazd" id="scene-4-ground" class="clip" data-start="0" data-duration="8.6" data-track-index="0">
+      <div data-hf-id="hf-f74o" id="scene-4-swell"></div>
+    </div>
+
+    <div data-hf-id="hf-4bxw" id="scene-4-starfield" class="clip" data-layout-allow-overflow="true" data-start="0" data-duration="8.6" data-track-index="1">
+      <canvas data-hf-id="hf-2pko" id="scene-4-stars-far" width="2048" height="1168"></canvas>
+      <canvas data-hf-id="hf-hjxj" id="scene-4-stars-mid" width="2048" height="1168"></canvas>
+      <canvas data-hf-id="hf-k98j" id="scene-4-stars-near" width="2048" height="1168"></canvas>
+    </div>
+
+    <div data-hf-id="hf-jids" id="scene-4-stage" class="clip" data-start="0" data-duration="8.6" data-track-index="2">
+      <div data-hf-id="hf-sbfg" id="scene-4-camera">
+        <div data-hf-id="hf-qms4" id="scene-4-earth" data-layout-allow-overflow="true">
+          <div data-hf-id="hf-au2f" id="scene-4-earth-disc"></div>
+          <div data-hf-id="hf-w5nw" id="scene-4-earth-limb"></div>
+        </div>
+
+        <div data-hf-id="hf-vcno" id="scene-4-orion">
+          <svg data-hf-id="hf-padk" id="scene-4-orion-svg" viewBox="0 0 400 160" width="480" height="192" aria-hidden="true">
+            <path data-hf-id="hf-aqq1" class="scene-4-stroke" d="M 56 30 Q 12 80 56 130" />
+            <path data-hf-id="hf-aojb" class="scene-4-stroke" d="M 56 30 L 82 42 L 82 118 L 56 130" />
+            <path data-hf-id="hf-lywh" class="scene-4-stroke" d="M 82 42 L 176 30 L 176 130 L 82 118 Z" />
+            <path data-hf-id="hf-ax02" class="scene-4-stroke" d="M 112 66 L 142 60 L 142 92 L 112 98 Z" />
+            <circle data-hf-id="hf-3gcg" id="scene-4-hatch" class="scene-4-stroke" cx="158" cy="80" r="7" />
+            <path data-hf-id="hf-19dq" class="scene-4-stroke" d="M 176 38 L 304 38 L 304 122 L 176 122 Z" />
+            <path data-hf-id="hf-hozs" class="scene-4-stroke" d="M 208 38 L 208 122" />
+            <path data-hf-id="hf-xz2w" class="scene-4-stroke" d="M 240 38 L 240 122" />
+            <path data-hf-id="hf-2hnu" class="scene-4-stroke" d="M 272 38 L 272 122" />
+            <path data-hf-id="hf-c1fx" class="scene-4-stroke" d="M 304 60 L 352 48 L 352 112 L 304 100 Z" />
+            <path data-hf-id="hf-aplf" class="scene-4-stroke" d="M 240 38 L 240 16 L 266 10" />
+          </svg>
+        </div>
+
+        <div data-hf-id="hf-om7c" id="scene-4-dataviz">
+          <div data-hf-id="hf-bqqr" id="scene-4-stat-label">RANGE</div>
+          <div data-hf-id="hf-mw3w" id="scene-4-counter-wrap">
+            <span data-hf-id="hf-frbj" id="scene-4-counter">384,000</span><span data-hf-id="hf-wbdx" id="scene-4-suffix">km</span>
+          </div>
+          <div data-hf-id="hf-dqz8" id="scene-4-bar-block">
+            <div data-hf-id="hf-yt2o" id="scene-4-bar-labels">
+              <span data-hf-id="hf-7haz">EARTH</span>
+              <span data-hf-id="hf-p70p">→</span>
+              <span data-hf-id="hf-xavw">MOON</span>
+            </div>
+            <div data-hf-id="hf-l7ry" id="scene-4-track">
+              <div data-hf-id="hf-zs5i" id="scene-4-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      var rng = mulberry32(44044);
+
+      function paintStars(canvas, count, sizeMin, sizeMax, alphaMin, alphaMax) {
+        var ctx = canvas.getContext("2d");
+        var w = canvas.width;
+        var h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < count; i++) {
+          var x = rng() * w;
+          var y = rng() * h;
+          var r = sizeMin + rng() * (sizeMax - sizeMin);
+          var a = alphaMin + rng() * (alphaMax - alphaMin);
+          var pick = rng();
+          var color = pick > 0.96 ? "#FF6B35" : pick > 0.88 ? "#FFD166" : pick > 0.78 ? "#4FC3F7" : "#E8EEF7";
+          ctx.globalAlpha = a;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      paintStars(document.getElementById("scene-4-stars-far"), 220, 0.4, 1.1, 0.18, 0.42);
+      paintStars(document.getElementById("scene-4-stars-mid"), 80, 0.8, 1.7, 0.32, 0.62);
+      paintStars(document.getElementById("scene-4-stars-near"), 28, 1.3, 2.4, 0.5, 0.9);
+
+      var strokes = document.querySelectorAll(".scene-4-stroke");
+      var lengths = [];
+      for (var s = 0; s < strokes.length; s++) {
+        var len = strokes[s].getTotalLength() * 1.05;
+        lengths.push(len);
+        strokes[s].style.strokeDasharray = String(len);
+        strokes[s].style.strokeDashoffset = String(len);
+      }
+
+      var counter = document.getElementById("scene-4-counter");
+      var state = { value: 384000 };
+      var COUNT_DUR = 3.4;
+      var RANGE_END = 6545;
+
+      var tl = gsap.timeline({ paused: true });
+
+      tl.fromTo(
+        "#scene-4-stars-far",
+        { x: 0, y: 0 },
+        { x: 22, y: -8, duration: 8, ease: "expo.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-4-stars-mid",
+        { x: 0, y: 0 },
+        { x: 40, y: -14, duration: 8, ease: "expo.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-4-stars-near",
+        { x: 0, y: 0 },
+        { x: 64, y: -22, duration: 8, ease: "expo.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-4-camera",
+        { scale: 1 },
+        { scale: 1.045, duration: 8, ease: "expo.out", transformOrigin: "50% 50%" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-4-earth",
+        { opacity: 0 },
+        { opacity: 0.72, duration: 1.35, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-4-orion",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.45, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-4-orion",
+        { x: -80 },
+        { x: 556, duration: 5.2, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-4-orion",
+        { x: 556 },
+        { x: 980, duration: 2.8, ease: "expo.out", immediateRender: false },
+        5.2
+      );
+
+      for (var p = 0; p < strokes.length; p++) {
+        tl.fromTo(
+          strokes[p],
+          { strokeDashoffset: lengths[p] },
+          { strokeDashoffset: 0, duration: 0.42, ease: "power3.out" },
+          0.08 + p * 0.14
+        );
+      }
+
+      tl.fromTo(
+        "#scene-4-stat-label",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        1.8
+      );
+
+      tl.fromTo(
+        "#scene-4-counter",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.55, ease: "power3.out" },
+        1.8
+      );
+
+      tl.to(
+        state,
+        {
+          value: RANGE_END,
+          duration: COUNT_DUR,
+          ease: "power3.out",
+          onUpdate: function () {
+            counter.textContent = Math.round(state.value).toLocaleString("en-US");
+          },
+        },
+        1.8
+      );
+
+      tl.fromTo(
+        "#scene-4-bar-labels",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.55, ease: "power3.out" },
+        1.8
+      );
+
+      tl.fromTo(
+        "#scene-4-fill",
+        { scaleX: 0 },
+        { scaleX: 1, duration: COUNT_DUR, ease: "power3.out", transformOrigin: "left center" },
+        1.8
+      );
+
+      tl.fromTo(
+        "#scene-4-suffix",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+        1.8 + COUNT_DUR
+      );
+
+      window.__timelines["scene-4"] = tl;
+    })();
+  </script>
+</template>

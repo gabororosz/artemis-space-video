@@ -1,0 +1,650 @@
+<template>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-400.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-500.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-600.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-700.woff2") format("woff2");}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      color: #E8EEF7;
+    }
+
+    .clip {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+
+    #scene-5-ground {
+      background-color: #05070D;
+      background-image: radial-gradient(
+        ellipse 70% 55% at 50% 48%,
+        rgba(11, 20, 38, 0.88) 0%,
+        rgba(5, 7, 13, 0) 72%
+      );
+    }
+
+    #scene-5-stage {
+      overflow: hidden;
+    }
+
+    #scene-5-stars-far,
+    #scene-5-stars-near {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      pointer-events: none;
+    }
+
+    #scene-5-camera {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    #scene-5-svg-far,
+    #scene-5-svg-moon,
+    #scene-5-svg-near {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      pointer-events: none;
+    }
+
+    #scene-5-svg-far { z-index: 1; }
+    #scene-5-svg-moon { z-index: 2; }
+    #scene-5-svg-near { z-index: 3; }
+
+    .scene-5-arc {
+      fill: none;
+      stroke: #4FC3F7;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #scene-5-approach {
+      position: absolute;
+      z-index: 4;
+      left: 4.6cqw;
+      top: 22cqh;
+      width: 46cqw;
+      opacity: 0;
+    }
+
+    .scene-5-marker-panel {
+      display: inline-block;
+      background: rgba(11, 20, 38, 0.72);
+      border-left: 2px solid #4FC3F7;
+      padding: 1.05cqw 1.4cqw 1.15cqw 1.3cqw;
+    }
+
+    .scene-5-phrase {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.28em 0.42em;
+      color: #4FC3F7;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.15cqw;
+      letter-spacing: 0.12em;
+      line-height: 1.35;
+    }
+
+    .scene-5-word {
+      display: inline-block;
+      transform-origin: 50% 50%;
+      text-shadow: 0 0 0 rgba(79, 195, 247, 0);
+      text-transform: uppercase;
+    }
+
+    .scene-5-word[data-word="km"] {
+      text-transform: none;
+      letter-spacing: 0.06em;
+    }
+
+    .scene-5-word-brand {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.06em;
+    }
+
+    .scene-5-sep {
+      display: inline-block;
+      color: #FF6B35;
+      opacity: 0.85;
+    }
+
+    #scene-5-pip,
+    #scene-5-ring {
+      position: absolute;
+      z-index: 4;
+      display: block;
+      pointer-events: none;
+    }
+
+    #scene-5-pip {
+      left: 390px;
+      top: 540px;
+      width: 10px;
+      height: 10px;
+      margin-left: -5px;
+      margin-top: -5px;
+      background: #4FC3F7;
+      opacity: 0;
+    }
+
+    #scene-5-ring {
+      left: 390px;
+      top: 540px;
+      width: 22px;
+      height: 22px;
+      margin-left: -11px;
+      margin-top: -11px;
+      border: 1.5px solid #4FC3F7;
+      opacity: 0;
+      transform-origin: 50% 50%;
+    }
+
+    #scene-5-stat {
+      position: absolute;
+      z-index: 5;
+      right: 5.5cqw;
+      top: 8.5cqh;
+      width: 28cqw;
+      opacity: 0;
+      background: rgba(11, 20, 38, 0.72);
+      border: 1px solid rgba(79, 195, 247, 0.35);
+      padding: 1.5cqw 1.7cqw 1.55cqw;
+    }
+
+    .scene-5-stat-label {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 0.72cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFD166;
+      line-height: 1.4;
+    }
+
+    .scene-5-counter-wrap {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      width: 100%;
+      margin-top: 0.55cqw;
+    }
+
+    .scene-5-counter {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 3.4cqw;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: #FFD166;
+      transform-origin: 100% 50%;
+      width: 8.4ch;
+      text-align: right;
+    }
+
+    .scene-5-counter-suffix {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 1.35cqw;
+      letter-spacing: 0.08em;
+      color: #FFD166;
+      margin-left: 0.4em;
+      opacity: 0;
+    }
+
+    .scene-5-stat-tag {
+      margin-top: 0.85cqw;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 600;
+      font-size: 1.15cqw;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #FFD166;
+      line-height: 1.25;
+      opacity: 0;
+    }
+
+    #scene-5-crew {
+      position: absolute;
+      z-index: 6;
+      left: 5.5cqw;
+      right: 5.5cqw;
+      top: 73cqh;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 0.55em;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 600;
+      font-size: 2.35cqw;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #E8EEF7;
+    }
+
+    .scene-5-name {
+      display: inline-block;
+      opacity: 0;
+    }
+
+    .scene-5-dot {
+      display: inline-block;
+      color: #FF6B35;
+      opacity: 0;
+      font-weight: 700;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <div data-hf-id="hf-a4vy" id="root" data-composition-id="scene-5" data-width="1920" data-height="1080" data-duration="11.032">
+    <div data-hf-id="hf-a2x9" id="scene-5-ground" class="clip" data-start="0" data-duration="11.032" data-track-index="0"></div>
+
+    <div data-hf-id="hf-3z2u" id="scene-5-stage" class="clip" data-layout-allow-overflow="true" data-start="0" data-duration="11.032" data-track-index="1">
+      <canvas data-hf-id="hf-ifvq" id="scene-5-stars-far" width="1920" height="1080"></canvas>
+      <canvas data-hf-id="hf-2vud" id="scene-5-stars-near" width="1920" height="1080"></canvas>
+
+      <div data-hf-id="hf-2u3j" id="scene-5-camera">
+        <svg data-hf-id="hf-916c" id="scene-5-svg-far" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path data-hf-id="hf-jhco" id="scene-5-arc-far" class="scene-5-arc" d="M 960,1020 C 200,820 200,260 960,60" />
+        </svg>
+
+        <svg data-hf-id="hf-fjad" id="scene-5-svg-moon" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" data-layout-allow-overflow="true">
+          <defs data-hf-id="hf-mh0t">
+            <clippath data-hf-id="hf-ku4o" id="scene-5-moon-clip">
+              <circle data-hf-id="hf-ef0z" cx="960" cy="540" r="560" />
+            </clippath>
+          </defs>
+          <g data-hf-id="hf-ci74" clip-path="url(#scene-5-moon-clip)">
+            <circle data-hf-id="hf-9fv1" cx="960" cy="540" r="560" fill="#0B1426" />
+            <circle data-hf-id="hf-nzxg" cx="1140" cy="500" r="380" fill="#E8EEF7" fill-opacity="0.16" />
+            <circle data-hf-id="hf-wrxa" cx="880" cy="620" r="240" fill="#E8EEF7" fill-opacity="0.07" />
+            <ellipse data-hf-id="hf-ce16" cx="820" cy="480" rx="210" ry="150" fill="#05070D" fill-opacity="0.42" />
+            <ellipse data-hf-id="hf-vrdo" cx="1180" cy="640" rx="130" ry="95" fill="#05070D" fill-opacity="0.38" />
+            <ellipse data-hf-id="hf-3dcp" cx="1080" cy="380" rx="95" ry="70" fill="#05070D" fill-opacity="0.32" />
+            <circle data-hf-id="hf-0izl" cx="720" cy="540" r="560" fill="#05070D" fill-opacity="0.38" />
+            <circle data-hf-id="hf-ic3q" cx="740" cy="410" r="62" fill="#05070D" fill-opacity="0.45" />
+            <circle data-hf-id="hf-egn6" cx="738" cy="408" r="62" fill="none" stroke="#E8EEF7" stroke-opacity="0.18" stroke-width="2" />
+            <circle data-hf-id="hf-pd3p" cx="1288" cy="470" r="48" fill="#05070D" fill-opacity="0.4" />
+            <circle data-hf-id="hf-pnyv" cx="1286" cy="468" r="48" fill="none" stroke="#E8EEF7" stroke-opacity="0.16" stroke-width="1.5" />
+            <circle data-hf-id="hf-zboa" cx="1104" cy="720" r="54" fill="#05070D" fill-opacity="0.36" />
+            <circle data-hf-id="hf-yir7" cx="1102" cy="718" r="54" fill="none" stroke="#E8EEF7" stroke-opacity="0.14" stroke-width="1.5" />
+            <circle data-hf-id="hf-wr2e" cx="980" cy="360" r="36" fill="#05070D" fill-opacity="0.4" />
+            <circle data-hf-id="hf-4vmh" cx="860" cy="760" r="42" fill="#05070D" fill-opacity="0.38" />
+            <circle data-hf-id="hf-6xb9" cx="1210" cy="320" r="28" fill="#05070D" fill-opacity="0.34" />
+            <circle data-hf-id="hf-dis5" cx="1040" cy="560" r="22" fill="#05070D" fill-opacity="0.4" />
+            <circle data-hf-id="hf-q6oi" cx="790" cy="300" r="18" fill="#05070D" fill-opacity="0.36" />
+            <circle data-hf-id="hf-d6i1" cx="1340" cy="600" r="20" fill="#05070D" fill-opacity="0.33" />
+            <circle data-hf-id="hf-9tko" cx="920" cy="490" r="14" fill="#05070D" fill-opacity="0.42" />
+            <circle data-hf-id="hf-v5i3" cx="1160" cy="540" r="16" fill="#05070D" fill-opacity="0.35" />
+            <circle data-hf-id="hf-5wnx" cx="1008" cy="820" r="24" fill="#05070D" fill-opacity="0.34" />
+            <circle data-hf-id="hf-d2gw" cx="1248" cy="780" r="19" fill="#05070D" fill-opacity="0.3" />
+            <circle data-hf-id="hf-7opu" cx="700" cy="680" r="26" fill="#05070D" fill-opacity="0.4" />
+            <circle data-hf-id="hf-m2bc" cx="890" cy="250" r="15" fill="#05070D" fill-opacity="0.32" />
+            <circle data-hf-id="hf-o9pu" cx="1410" cy="490" r="17" fill="#05070D" fill-opacity="0.28" />
+            <circle data-hf-id="hf-2dgb" cx="1088" cy="250" r="12" fill="#05070D" fill-opacity="0.36" />
+            <circle data-hf-id="hf-ahrp" cx="960" cy="640" r="11" fill="#05070D" fill-opacity="0.38" />
+            <circle data-hf-id="hf-6er9" cx="820" cy="560" r="9" fill="#05070D" fill-opacity="0.4" />
+            <circle data-hf-id="hf-gcff" cx="1300" cy="380" r="13" fill="#05070D" fill-opacity="0.3" />
+            <circle data-hf-id="hf-uhol" cx="1140" cy="860" r="21" fill="#05070D" fill-opacity="0.32" />
+            <circle data-hf-id="hf-f2cq" cx="760" cy="820" r="16" fill="#05070D" fill-opacity="0.36" />
+            <circle data-hf-id="hf-uyjm" cx="1020" cy="200" r="10" fill="#05070D" fill-opacity="0.34" />
+            <circle data-hf-id="hf-jlxq" cx="1180" cy="200" r="8" fill="#05070D" fill-opacity="0.3" />
+            <circle data-hf-id="hf-vxo7" cx="880" cy="900" r="14" fill="#05070D" fill-opacity="0.28" />
+            <circle data-hf-id="hf-x5d5" cx="1320" cy="700" r="11" fill="#05070D" fill-opacity="0.32" />
+            <circle data-hf-id="hf-q2lk" cx="940" cy="720" r="7" fill="#05070D" fill-opacity="0.4" />
+            <circle data-hf-id="hf-riwb" cx="1060" cy="440" r="8" fill="#05070D" fill-opacity="0.36" />
+            <circle data-hf-id="hf-qm3e" cx="720" cy="460" r="10" fill="#05070D" fill-opacity="0.34" />
+          </g>
+          <circle data-hf-id="hf-15pq" cx="960" cy="540" r="560" fill="none" stroke="#E8EEF7" stroke-opacity="0.22" stroke-width="1.5" />
+        </svg>
+
+        <svg data-hf-id="hf-pnxt" id="scene-5-svg-near" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path data-hf-id="hf-cycx" id="scene-5-arc-near" class="scene-5-arc" d="M 960,60 C 1720,260 1720,820 960,1020" />
+        </svg>
+
+        <div data-hf-id="hf-636x" id="scene-5-pip"></div>
+        <div data-hf-id="hf-dq0k" id="scene-5-ring"></div>
+
+        <div data-hf-id="hf-g1vm" id="scene-5-approach">
+          <div data-hf-id="hf-9wdc" class="scene-5-marker-panel">
+            <div data-hf-id="hf-oxgs" class="scene-5-phrase">
+              <span data-hf-id="hf-4e6k" class="scene-5-word" data-word="closest">CLOSEST</span>
+              <span data-hf-id="hf-6j78" class="scene-5-word" data-word="approach">APPROACH</span>
+              <span data-hf-id="hf-l7yz" class="scene-5-sep">·</span>
+              <span data-hf-id="hf-fi5d" class="scene-5-word" data-word="date">APR 06 2026</span>
+              <span data-hf-id="hf-onob" class="scene-5-sep">·</span>
+              <span data-hf-id="hf-agh1" class="scene-5-word scene-5-word-brand" data-word="dist">6,545</span>
+              <span data-hf-id="hf-k6tg" class="scene-5-word" data-word="km">km</span>
+            </div>
+          </div>
+        </div>
+
+        <div data-hf-id="hf-l7f8" id="scene-5-stat">
+          <div data-hf-id="hf-rg4n" class="scene-5-stat-label" id="scene-5-stat-label">DISTANCE FROM EARTH</div>
+          <div data-hf-id="hf-1mjq" class="scene-5-counter-wrap">
+            <span data-hf-id="hf-cr8v" class="scene-5-counter" id="scene-5-counter">0</span>
+            <span data-hf-id="hf-b5wm" class="scene-5-counter-suffix" id="scene-5-suffix">KM</span>
+          </div>
+          <div data-hf-id="hf-3ma4" class="scene-5-stat-tag" id="scene-5-stat-tag">FARTHEST HUMANS HAVE EVER TRAVELED</div>
+        </div>
+
+        <div data-hf-id="hf-flpt" id="scene-5-crew">
+          <span data-hf-id="hf-0c9g" class="scene-5-name" id="scene-5-name-wiseman">Wiseman</span>
+          <span data-hf-id="hf-jpby" class="scene-5-dot" id="scene-5-dot-1">·</span>
+          <span data-hf-id="hf-vguu" class="scene-5-name" id="scene-5-name-glover">Glover</span>
+          <span data-hf-id="hf-antn" class="scene-5-dot" id="scene-5-dot-2">·</span>
+          <span data-hf-id="hf-eu62" class="scene-5-name" id="scene-5-name-koch">Koch</span>
+          <span data-hf-id="hf-a3i0" class="scene-5-dot" id="scene-5-dot-3">·</span>
+          <span data-hf-id="hf-xrra" class="scene-5-name" id="scene-5-name-hansen">Hansen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const DURATION = 10.432;
+      const root = document.querySelector('[data-composition-id="scene-5"]');
+      if (!root) return;
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function paintStars(canvas, count, minR, maxR, alphaMin, alphaMax, rng) {
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, 1920, 1080);
+        for (let i = 0; i < count; i++) {
+          const x = rng() * 1920;
+          const y = rng() * 1080;
+          const r = minR + rng() * (maxR - minR);
+          const a = alphaMin + rng() * (alphaMax - alphaMin);
+          ctx.fillStyle = "rgba(232, 238, 247, " + a + ")";
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      const rng = mulberry32(55055);
+      paintStars(root.querySelector("#scene-5-stars-far"), 220, 0.4, 1.15, 0.18, 0.55, rng);
+      paintStars(root.querySelector("#scene-5-stars-near"), 70, 0.9, 1.8, 0.4, 0.85, rng);
+
+      function prepPath(p) {
+        const len = p.getTotalLength() * 1.05;
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+        return len;
+      }
+
+      const arcFar = root.querySelector("#scene-5-arc-far");
+      const arcNear = root.querySelector("#scene-5-arc-near");
+      const farLen = prepPath(arcFar);
+      const nearLen = prepPath(arcNear);
+
+      const camera = root.querySelector("#scene-5-camera");
+      const counter = root.querySelector("#scene-5-counter");
+      const words = root.querySelectorAll(".scene-5-word");
+
+      const ATTACK_DUR = 0.18;
+      const RELEASE = 0.4;
+      const REST_LEVEL = 0.12;
+      const MAX_BLUR = 36;
+      const MAX_SCALE_BOOST = 0.2;
+      const REST_RGB = { r: 42, g: 78, b: 96 };
+      const ACTIVE_RGB = { r: 79, g: 195, b: 247 };
+      const BRAND_RGB = { r: 232, g: 238, b: 247 };
+
+      const TIMINGS = {
+        date: { start: 0.08, end: 1.0 },
+        closest: { start: 1.006, end: 1.33 },
+        approach: { start: 1.34, end: 2.16 },
+        dist: { start: 2.163, end: 3.599 },
+        km: { start: 3.61, end: 4.062 },
+      };
+
+      function envelope(time, start, end) {
+        if (time < start) return 0;
+        if (time < end) return Math.min((time - start) / ATTACK_DUR, 1);
+        const releaseEnd = end + RELEASE;
+        if (time < releaseEnd) return 1 - ((time - end) / RELEASE) * (1 - REST_LEVEL);
+        return REST_LEVEL;
+      }
+
+      function lerpChannel(a, b, t) {
+        return Math.round(a + (b - a) * t);
+      }
+
+      function colorAt(env, isBrand) {
+        const target = isBrand ? BRAND_RGB : ACTIVE_RGB;
+        return (
+          "rgb(" +
+          lerpChannel(REST_RGB.r, target.r, env) +
+          ", " +
+          lerpChannel(REST_RGB.g, target.g, env) +
+          ", " +
+          lerpChannel(REST_RGB.b, target.b, env) +
+          ")"
+        );
+      }
+
+      function glowColorRgba(env, isBrand) {
+        if (isBrand) return "rgba(255, 209, 102, " + (0.18 + 0.82 * env) + ")";
+        return "rgba(79, 195, 247, " + (0.12 + 0.88 * env) + ")";
+      }
+
+      const PULSE_DUR = 0.5;
+      const pulseWindow = 4.6 - 2.4;
+      const pulseRepeats = Math.max(0, Math.floor(pulseWindow / PULSE_DUR) - 1);
+
+      const COUNT_DUR = 1.8;
+      const COUNT_AT = 4.6;
+      const START_SCALE = 0.52;
+      const TARGET_VALUE = 406771;
+      const countState = { value: 0 };
+
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo(
+        camera,
+        { scale: 1 },
+        { scale: 1.045, duration: 1.6, ease: "power3.out" },
+        0.35,
+      );
+      tl.fromTo(
+        camera,
+        { scale: 1.045 },
+        { scale: 1.1, duration: 2.0, ease: "expo.out", immediateRender: false },
+        2.15,
+      );
+
+      tl.fromTo(
+        root.querySelector("#scene-5-stars-far"),
+        { x: 0, y: 0 },
+        { x: -16, y: 6, duration: DURATION, ease: "none" },
+        0,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-stars-near"),
+        { x: 0, y: 0 },
+        { x: -40, y: 14, duration: DURATION, ease: "none" },
+        0,
+      );
+
+      tl.fromTo(
+        arcFar,
+        { strokeDashoffset: farLen },
+        { strokeDashoffset: 0, duration: 1.5, ease: "power3.out" },
+        2.0,
+      );
+      tl.fromTo(
+        arcNear,
+        { strokeDashoffset: nearLen },
+        { strokeDashoffset: 0, duration: 1.15, ease: "power3.out" },
+        3.05,
+      );
+
+      tl.fromTo(
+        root.querySelector("#scene-5-approach"),
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        2.0,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-pip"),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        2.0,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-ring"),
+        { opacity: 0, scale: 1 },
+        { opacity: 0.7, scale: 1, duration: 0.4, ease: "power3.out" },
+        2.0,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-ring"),
+        { scale: 1, opacity: 0.7 },
+        {
+          scale: 1.85,
+          opacity: 0.18,
+          duration: PULSE_DUR,
+          yoyo: true,
+          repeat: pulseRepeats,
+          ease: "power3.out",
+          immediateRender: false,
+        },
+        2.4,
+      );
+
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: DURATION,
+          duration: DURATION,
+          ease: "none",
+          onUpdate: function () {
+            words.forEach(function (el) {
+              const timing = TIMINGS[el.dataset.word];
+              if (!timing) return;
+              const env = envelope(driver.t, timing.start, timing.end);
+              const isBrand = el.classList.contains("scene-5-word-brand");
+              el.style.textShadow = "0 0 " + MAX_BLUR * env + "px " + glowColorRgba(env, isBrand);
+              el.style.transform = "scale(" + (1 + MAX_SCALE_BOOST * env) + ")";
+              el.style.color = colorAt(env, isBrand);
+            });
+          },
+        },
+        0,
+      );
+
+      tl.fromTo(
+        root.querySelector("#scene-5-stat"),
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        COUNT_AT,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-stat-label"),
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        COUNT_AT,
+      );
+      tl.to(
+        countState,
+        {
+          value: TARGET_VALUE,
+          duration: COUNT_DUR,
+          ease: "expo.out",
+          onUpdate: function () {
+            counter.textContent = Math.round(countState.value).toLocaleString("en-US");
+          },
+        },
+        COUNT_AT,
+      );
+      tl.fromTo(
+        counter,
+        { scale: START_SCALE },
+        { scale: 1, duration: COUNT_DUR, ease: "expo.out" },
+        COUNT_AT,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-suffix"),
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        COUNT_AT + COUNT_DUR,
+      );
+      tl.fromTo(
+        root.querySelector("#scene-5-stat-tag"),
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        5.54,
+      );
+
+      function nameIn(id, at) {
+        tl.fromTo(
+          root.querySelector(id),
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.48, ease: "power3.out" },
+          at,
+        );
+      }
+      nameIn("#scene-5-name-wiseman", 7.2);
+      nameIn("#scene-5-dot-1", 8.182);
+      nameIn("#scene-5-name-glover", 8.182);
+      nameIn("#scene-5-dot-2", 8.923);
+      nameIn("#scene-5-name-koch", 8.923);
+      nameIn("#scene-5-dot-3", 9.571);
+      nameIn("#scene-5-name-hansen", 9.571);
+
+      tl.to(
+        [
+          "#scene-5-name-wiseman",
+          "#scene-5-dot-1",
+          "#scene-5-name-glover",
+          "#scene-5-dot-2",
+          "#scene-5-name-koch",
+          "#scene-5-dot-3",
+          "#scene-5-name-hansen",
+        ],
+        { opacity: 0, duration: 0.4, ease: "power3.out" },
+        10.55,
+      );
+
+      window.__timelines["scene-5"] = tl;
+    })();
+  </script>
+</template>

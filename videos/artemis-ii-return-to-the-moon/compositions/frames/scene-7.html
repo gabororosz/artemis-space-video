@@ -1,0 +1,562 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-400.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-500.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-600.woff2") format("woff2");}
+    @font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/SpaceGrotesk-700.woff2") format("woff2");}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      color: #e8eef7;
+    }
+
+    #scene-7-ground {
+      position: absolute;
+      inset: 0;
+      background: #05070d;
+    }
+
+    #scene-7-stars-far,
+    #scene-7-stars-near {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .scene-7-star {
+      position: absolute;
+      display: block;
+      background: #e8eef7;
+      pointer-events: none;
+    }
+
+    #scene-7-horizon {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 308px;
+      background: #0b1426;
+    }
+
+    #scene-7-dawn-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      background: #ffd166;
+    }
+
+    #scene-7-water-a,
+    #scene-7-water-b,
+    #scene-7-water-c {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: #4fc3f7;
+      opacity: 0.16;
+    }
+    #scene-7-water-a { top: 72px; }
+    #scene-7-water-b { top: 148px; opacity: 0.11; }
+    #scene-7-water-c { top: 228px; opacity: 0.07; }
+
+    #scene-7-orion {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 36px;
+      height: 760px;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    #scene-7-orion-svg {
+      display: block;
+      width: 520px;
+      height: 700px;
+    }
+
+    #scene-7-orion-svg .scene-7-canopy {
+      fill: #4fc3f7;
+      fill-opacity: 0;
+      stroke: #4fc3f7;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #scene-7-orion-svg .scene-7-riser {
+      fill: none;
+      stroke: #e8eef7;
+      stroke-width: 1.15;
+      stroke-linecap: round;
+      opacity: 0.72;
+    }
+
+    #scene-7-capsule {
+      fill: #ff6b35;
+      fill-opacity: 0;
+      stroke: #ff6b35;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #scene-7-clip-s1,
+    #scene-7-clip-s2,
+    #scene-7-clip-s3,
+    #scene-7-clip-s4,
+    #scene-7-lockup,
+    #scene-7-next {
+      position: absolute;
+      inset: 0;
+    }
+
+    .scene-7-kbs-line {
+      position: absolute;
+      left: 120px;
+      right: 120px;
+      height: 92px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 64px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    #scene-7-stat-1 { top: 176px; }
+    #scene-7-stat-2 { top: 292px; }
+    #scene-7-stat-3 { top: 408px; }
+    #scene-7-stat-4 { top: 524px; }
+
+    .scene-7-num,
+    .scene-7-rest {
+      display: block;
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .scene-7-num {
+      color: #ff6b35;
+    }
+
+    .scene-7-rest {
+      color: #e8eef7;
+    }
+
+    #scene-7-lockup-inner {
+      position: absolute;
+      left: 160px;
+      right: 160px;
+      top: 260px;
+      height: 360px;
+    }
+
+    #scene-7-lock-date,
+    #scene-7-lock-place,
+    #scene-7-lock-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    #scene-7-lock-date {
+      top: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 26px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4fc3f7;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #scene-7-lock-place {
+      top: 48px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 26px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #e8eef7;
+      opacity: 0.88;
+    }
+
+    #scene-7-lock-rule {
+      position: absolute;
+      left: 50%;
+      top: 100px;
+      width: 36px;
+      height: 2px;
+      margin-left: -18px;
+      background: #ff6b35;
+    }
+
+    #scene-7-lock-title {
+      top: 128px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 72px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #e8eef7;
+    }
+
+    #scene-7-next-inner {
+      position: absolute;
+      left: 80px;
+      right: 80px;
+      top: 280px;
+      height: 420px;
+    }
+
+    #scene-7-next-kicker,
+    #scene-7-next-title,
+    #scene-7-next-sub {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    #scene-7-next-kicker {
+      top: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4fc3f7;
+    }
+
+    #scene-7-next-title {
+      top: 72px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 140px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #e8eef7;
+    }
+
+    #scene-7-next-sub {
+      top: 248px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 600;
+      font-size: 36px;
+      line-height: 1.15;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ff6b35;
+    }
+
+    #scene-7-black {
+      position: absolute;
+      inset: 0;
+      background: #05070d;
+      opacity: 0;
+    }
+  </style>
+
+  <div data-hf-id="hf-0zmp" id="root" data-composition-id="scene-7" data-width="1920" data-height="1080" data-duration="10">
+    <div data-hf-id="hf-0ltj" id="scene-7-ground" class="clip" data-start="0" data-duration="10" data-track-index="0"></div>
+
+    <div data-hf-id="hf-uvkd" id="scene-7-stars-far" class="clip" data-start="0" data-duration="10" data-track-index="1" data-layout-allow-overflow="true"></div>
+    <div data-hf-id="hf-ouwr" id="scene-7-stars-near" class="clip" data-start="0" data-duration="10" data-track-index="2" data-layout-allow-overflow="true"></div>
+
+    <div data-hf-id="hf-1732" id="scene-7-horizon" class="clip" data-start="0" data-duration="10" data-track-index="3">
+      <div data-hf-id="hf-g3b1" id="scene-7-dawn-line"></div>
+      <div data-hf-id="hf-j95b" id="scene-7-water-a"></div>
+      <div data-hf-id="hf-al9g" id="scene-7-water-b"></div>
+      <div data-hf-id="hf-bcx9" id="scene-7-water-c"></div>
+    </div>
+
+    <div data-hf-id="hf-t5pp" id="scene-7-orion" class="clip" data-start="0" data-duration="10" data-track-index="4">
+      <svg data-hf-id="hf-f0gq" id="scene-7-orion-svg" viewBox="0 0 480 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path data-hf-id="hf-0jrt" class="scene-7-canopy" id="scene-7-canopy-l" d="M 30 172 C 30 46 172 46 172 172 C 148 194 124 172 101 196 C 78 172 54 194 30 172 Z" />
+        <path data-hf-id="hf-rxha" class="scene-7-canopy" id="scene-7-canopy-c" d="M 154 126 C 154 12 326 12 326 126 C 298 150 270 126 240 156 C 210 126 182 150 154 126 Z" />
+        <path data-hf-id="hf-jt3m" class="scene-7-canopy" id="scene-7-canopy-r" d="M 308 172 C 308 46 450 46 450 172 C 426 194 402 172 379 196 C 356 172 332 194 308 172 Z" />
+
+        <path data-hf-id="hf-uo2r" class="scene-7-riser" id="scene-7-riser-l1" d="M 50 172 L 240 352" />
+        <path data-hf-id="hf-8wp4" class="scene-7-riser" id="scene-7-riser-l2" d="M 101 184 L 240 352" />
+        <path data-hf-id="hf-jfau" class="scene-7-riser" id="scene-7-riser-l3" d="M 152 172 L 240 352" />
+        <path data-hf-id="hf-rzwy" class="scene-7-riser" id="scene-7-riser-c1" d="M 174 126 L 240 352" />
+        <path data-hf-id="hf-lqkf" class="scene-7-riser" id="scene-7-riser-c2" d="M 240 140 L 240 352" />
+        <path data-hf-id="hf-91qx" class="scene-7-riser" id="scene-7-riser-c3" d="M 306 126 L 240 352" />
+        <path data-hf-id="hf-b9f3" class="scene-7-riser" id="scene-7-riser-r1" d="M 328 172 L 240 352" />
+        <path data-hf-id="hf-agw1" class="scene-7-riser" id="scene-7-riser-r2" d="M 379 184 L 240 352" />
+        <path data-hf-id="hf-xj2p" class="scene-7-riser" id="scene-7-riser-r3" d="M 430 172 L 240 352" />
+        <path data-hf-id="hf-s5qb" class="scene-7-riser" id="scene-7-bridle" d="M 240 352 L 240 372" />
+
+        <path data-hf-id="hf-454f" id="scene-7-capsule" d="M 202 376 L 278 376 L 308 478 C 240 512 172 478 172 478 Z" />
+      </svg>
+    </div>
+
+    <div data-hf-id="hf-wg59" id="scene-7-clip-s1" class="clip" data-start="2.15" data-duration="3.25" data-track-index="5">
+      <div data-hf-id="hf-cf83" class="scene-7-kbs-line" id="scene-7-stat-1"><span data-hf-id="hf-jyf5" class="scene-7-num">10</span><span data-hf-id="hf-fuyp" class="scene-7-rest">DAYS</span></div>
+    </div>
+    <div data-hf-id="hf-lmw2" id="scene-7-clip-s2" class="clip" data-start="2.15" data-duration="3.25" data-track-index="9">
+      <div data-hf-id="hf-3rc8" class="scene-7-kbs-line" id="scene-7-stat-2"><span data-hf-id="hf-hvvv" class="scene-7-num">1</span><span data-hf-id="hf-twym" class="scene-7-rest">FLYBY</span></div>
+    </div>
+    <div data-hf-id="hf-36rp" id="scene-7-clip-s3" class="clip" data-start="2.15" data-duration="3.25" data-track-index="10">
+      <div data-hf-id="hf-4j01" class="scene-7-kbs-line" id="scene-7-stat-3"><span data-hf-id="hf-goys" class="scene-7-num">4</span><span data-hf-id="hf-beoa" class="scene-7-rest">ASTRONAUTS</span></div>
+    </div>
+    <div data-hf-id="hf-10wx" id="scene-7-clip-s4" class="clip" data-start="2.15" data-duration="3.25" data-track-index="11">
+      <div data-hf-id="hf-vv46" class="scene-7-kbs-line" id="scene-7-stat-4"><span data-hf-id="hf-7yvm" class="scene-7-num">∞</span><span data-hf-id="hf-ceh7" class="scene-7-rest">AMBITION</span></div>
+    </div>
+
+    <div data-hf-id="hf-xgma" id="scene-7-lockup" class="clip" data-start="5.4" data-duration="2.2" data-track-index="6">
+      <div data-hf-id="hf-bxml" id="scene-7-lockup-inner">
+        <div data-hf-id="hf-45g3" id="scene-7-lock-date">APR 11 2026</div>
+        <div data-hf-id="hf-jtls" id="scene-7-lock-place">PACIFIC OCEAN</div>
+        <div data-hf-id="hf-pe3k" id="scene-7-lock-rule"></div>
+        <div data-hf-id="hf-uo9t" id="scene-7-lock-title">MISSION COMPLETE</div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-l4am" id="scene-7-black" class="clip" data-start="7.6" data-duration="2.4" data-track-index="7"></div>
+
+    <div data-hf-id="hf-hncl" id="scene-7-next" class="clip" data-start="8.3" data-duration="1.7" data-track-index="8">
+      <div data-hf-id="hf-5qb0" id="scene-7-next-inner">
+        <div data-hf-id="hf-7cfo" id="scene-7-next-kicker">NEXT:</div>
+        <div data-hf-id="hf-xieo" id="scene-7-next-title">ARTEMIS III</div>
+        <div data-hf-id="hf-db0k" id="scene-7-next-sub">BOOTS ON THE MOON</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      var rng = mulberry32(77077);
+      var far = document.getElementById("scene-7-stars-far");
+      var near = document.getElementById("scene-7-stars-near");
+      var i, star, size;
+
+      for (i = 0; i < 72; i++) {
+        star = document.createElement("span");
+        star.className = "scene-7-star";
+        size = 1 + rng() * 1.35;
+        star.style.left = rng() * 1920 + "px";
+        star.style.top = rng() * 772 + "px";
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+        star.style.opacity = String(0.18 + rng() * 0.52);
+        if (rng() < 0.07) star.style.background = "#4fc3f7";
+        far.appendChild(star);
+      }
+
+      for (i = 0; i < 36; i++) {
+        star = document.createElement("span");
+        star.className = "scene-7-star";
+        size = 1.6 + rng() * 1.7;
+        star.style.left = rng() * 1920 + "px";
+        star.style.top = rng() * 760 + "px";
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+        star.style.opacity = String(0.35 + rng() * 0.55);
+        if (rng() < 0.1) star.style.background = "#4fc3f7";
+        else if (rng() < 0.04) star.style.background = "#ffd166";
+        near.appendChild(star);
+      }
+
+      var drawNodes = document.querySelectorAll(
+        "#scene-7-orion-svg path"
+      );
+      drawNodes.forEach(function (p) {
+        var len = p.getTotalLength() * 1.04;
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+      });
+
+      var tl = gsap.timeline({ paused: true });
+      var PULSE = 0.8;
+      var BEATS = [2.2, 2.2 + PULSE, 2.2 + PULSE * 2, 2.2 + PULSE * 3];
+
+      tl.fromTo(
+        far,
+        { y: 0 },
+        { y: 16, duration: 10, ease: "power3.out" },
+        0
+      );
+      tl.fromTo(
+        near,
+        { y: 0 },
+        { y: 40, duration: 10, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(
+        "#scene-7-horizon",
+        { y: 18, opacity: 0.7 },
+        { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
+        0
+      );
+
+      var canopyIds = ["#scene-7-canopy-l", "#scene-7-canopy-c", "#scene-7-canopy-r"];
+      canopyIds.forEach(function (id, idx) {
+        var start = 0.06 + idx * 0.12;
+        var node = document.querySelector(id);
+        var len = node.getTotalLength() * 1.04;
+        tl.fromTo(
+          node,
+          { strokeDashoffset: len },
+          { strokeDashoffset: 0, duration: 0.5, ease: "power3.out" },
+          start
+        );
+        tl.fromTo(
+          node,
+          { fillOpacity: 0 },
+          { fillOpacity: 0.14, duration: 0.35, ease: "power3.out" },
+          start + 0.42
+        );
+      });
+
+      var riserIds = [
+        "#scene-7-riser-l1",
+        "#scene-7-riser-l2",
+        "#scene-7-riser-l3",
+        "#scene-7-riser-c1",
+        "#scene-7-riser-c2",
+        "#scene-7-riser-c3",
+        "#scene-7-riser-r1",
+        "#scene-7-riser-r2",
+        "#scene-7-riser-r3",
+        "#scene-7-bridle",
+      ];
+      riserIds.forEach(function (id, idx) {
+        var node = document.querySelector(id);
+        var len = node.getTotalLength() * 1.04;
+        tl.fromTo(
+          node,
+          { strokeDashoffset: len },
+          { strokeDashoffset: 0, duration: 0.32, ease: "power3.out" },
+          0.42 + idx * 0.055
+        );
+      });
+
+      var capsule = document.getElementById("scene-7-capsule");
+      var capLen = capsule.getTotalLength() * 1.04;
+      tl.fromTo(
+        capsule,
+        { strokeDashoffset: capLen },
+        { strokeDashoffset: 0, duration: 0.45, ease: "power3.out" },
+        1.18
+      );
+      tl.fromTo(
+        capsule,
+        { fillOpacity: 0 },
+        { fillOpacity: 0.22, duration: 0.32, ease: "power3.out" },
+        1.55
+      );
+
+      tl.fromTo(
+        "#scene-7-orion",
+        { scale: 0.97 },
+        { scale: 1, duration: 0.8, ease: "power3.out" },
+        0
+      );
+      tl.fromTo(
+        "#scene-7-orion",
+        { opacity: 1 },
+        { opacity: 0.26, duration: 0.5, ease: "power3.out" },
+        2.2
+      );
+
+      gsap.set(["#scene-7-stat-1", "#scene-7-stat-2", "#scene-7-stat-3", "#scene-7-stat-4"], {
+        opacity: 0,
+      });
+
+      tl.fromTo(
+        "#scene-7-stat-1",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        BEATS[0]
+      );
+      tl.fromTo(
+        "#scene-7-stat-2",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "expo.out" },
+        BEATS[1]
+      );
+      tl.fromTo(
+        "#scene-7-stat-3",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power3.out" },
+        BEATS[2]
+      );
+      tl.fromTo(
+        "#scene-7-stat-4",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "expo.out" },
+        BEATS[3]
+      );
+
+      tl.fromTo(
+        "#scene-7-lockup-inner",
+        { scale: 0.96, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" },
+        5.4
+      );
+
+      tl.fromTo(
+        "#scene-7-orion",
+        { opacity: 0.26 },
+        { opacity: 0, duration: 0.5, ease: "power3.out" },
+        7.6
+      );
+      tl.fromTo(
+        "#scene-7-horizon",
+        { opacity: 1 },
+        { opacity: 0, duration: 0.55, ease: "power3.out" },
+        7.6
+      );
+      tl.fromTo(
+        "#scene-7-black",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6, ease: "power3.out" },
+        7.6
+      );
+      tl.fromTo(
+        "#scene-7-next-inner",
+        { scale: 0.96, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" },
+        8.3
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["scene-7"] = tl;
+    })();
+  </script>
+</template>
